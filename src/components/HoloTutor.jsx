@@ -109,6 +109,33 @@ const CyberAvatar = ({ step, isTalking }) => {
                     ))}
                 </div>
             </div>
+
+            {/* Floating Interaction Widgets */}
+            <AnimatePresence>
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0, y: [-5, 5] }} transition={{ opacity: {duration: 1}, y: {repeat: Infinity, duration: 3, repeatType: "mirror", delay: 0} }}
+                    className="absolute -left-12 md:-left-32 top-[10%] bg-black/80 border border-cyan-500/50 backdrop-blur-md px-3 py-2 rounded-md font-mono text-[10px] md:text-xs text-cyan-100 flex items-center gap-2 shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:scale-105 transition-transform cursor-crosshair z-20"
+                >
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    SLA: 24/7 ACTIVE
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0, y: [5, -5] }} transition={{ opacity: {duration: 1}, y: {repeat: Infinity, duration: 4, repeatType: "mirror", delay: 1} }}
+                    className="absolute -right-12 md:-right-32 top-[40%] bg-black/80 border border-purple-500/50 backdrop-blur-md px-3 py-2 rounded-md font-mono text-[10px] md:text-xs text-purple-100 flex items-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:scale-105 transition-transform cursor-crosshair z-20"
+                >
+                    <div className="w-2 h-2 border border-purple-400 rotate-45" />
+                    SYNC: DATI AZIENDALI
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: [-5, 5] }} transition={{ opacity: {duration: 1}, y: {repeat: Infinity, duration: 3.5, repeatType: "mirror", delay: 2} }}
+                    className="absolute left-1/2 -translate-x-1/2 -bottom-2 md:-bottom-8 bg-black/80 border border-white/20 backdrop-blur-md px-3 py-2 rounded-full font-mono text-[10px] md:text-xs text-white/80 flex items-center gap-2 hover:scale-105 transition-transform cursor-crosshair z-20 whitespace-nowrap"
+                >
+                    <div className="w-1 h-3 bg-white/50" />
+                    TASK: WORKFLOW OPTIMIZATION
+                </motion.div>
+            </AnimatePresence>
         </div>
     );
 };
@@ -140,13 +167,16 @@ export function HoloTutor({ isOpen, onClose }) {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && inputVal.trim() && step === 0) {
             setStep(1);
-            setInputVal("");
             
+            setTimeout(() => {
+                setIsTalking(true);
+            }, 600);
+
             // Simulate processing
             setTimeout(() => {
                 setStep(2);
-                setIsTalking(true);
-            }, 1500);
+                setInputVal("");
+            }, 4000);
         }
     };
 
@@ -167,7 +197,25 @@ export function HoloTutor({ isOpen, onClose }) {
                 <div className="w-full max-w-2xl flex flex-col items-center gap-6 z-10 relative">
                     
                     {/* Chat Input */}
-                    <div className={`w-full transition-all duration-500 ${step === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none absolute'}`}>
+                    <div className={`w-full transition-all duration-500 ${step === 0 || step === 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none absolute'}`}>
+                        {/* Live Processing Log */}
+                        <AnimatePresence>
+                            {step === 1 && (
+                                <motion.div 
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    className="w-full text-left font-mono text-[10px] md:text-xs text-cyan-300/80 mb-3 pl-2 overflow-hidden"
+                                >
+                                    <TypewriterText text="> Analisi semantica della query aziendale completata..." onComplete={() => {}} />
+                                    <br />
+                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+                                       <TypewriterText text="> Elaborazione architettura del workflow ottimizzata..." onComplete={() => {}} />
+                                    </motion.div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                        
                         <div className="w-full border border-purple-500/50 bg-black/60 backdrop-blur-md rounded-lg p-5 font-mono text-base md:text-xl text-white flex items-center shadow-[0_0_40px_rgba(168,85,247,0.2)] focus-within:border-cyan-400/80 focus-within:shadow-[0_0_40px_rgba(34,211,238,0.3)] transition-all">
                             <span className="mr-4 text-cyan-400 font-bold">&gt;</span>
                             <input 

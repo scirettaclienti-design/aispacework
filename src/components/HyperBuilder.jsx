@@ -1,5 +1,22 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
+
+const TypewriterText = React.memo(({ text, onComplete }) => {
+    const [displayed, setDisplayed] = useState('');
+    const onCompleteRef = useRef(onComplete);
+    useEffect(() => { onCompleteRef.current = onComplete; }, [onComplete]);
+    useEffect(() => {
+        setDisplayed('');
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < text.length) { setDisplayed(prev => prev + text.charAt(i)); i++; }
+            else { clearInterval(interval); if (onCompleteRef.current) onCompleteRef.current(); }
+        }, 30);
+        return () => clearInterval(interval);
+    }, [text]);
+    return <span>{displayed}</span>;
+});
+
 
 export function HyperBuilder({ isOpen, onClose }) {
     const [phase, setPhase] = useState(0);
@@ -131,23 +148,83 @@ export function HyperBuilder({ isOpen, onClose }) {
                         {/* Skeleton elements inside Hero populated at phase 3 */}
                         <AnimatePresence>
                             {phase >= 6 ? (
-                                <motion.div 
-                                    initial={{ opacity: 0, scale: 0.95 }} 
-                                    animate={{ opacity: 1, scale: 1 }} 
-                                    className="absolute inset-0 flex flex-col items-center justify-center bg-cyan-900/40 backdrop-blur-md z-20 rounded-xl border border-cyan-400/50"
-                                >
-                                    <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-full bg-cyan-400/20 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.6)]">
+                            <motion.div 
+                                initial={{ opacity: 0, scale: 0.95 }} 
+                                animate={{ opacity: 1, scale: 1 }} 
+                                className="absolute inset-0 flex flex-col items-center justify-center bg-cyan-950/80 backdrop-blur-xl z-20 rounded-xl border border-cyan-400/50 p-6 shadow-[0_0_50px_rgba(34,211,238,0.2)]"
+                            >
+                                {/* Top bar */}
+                                <div className="w-full h-8 border-b border-cyan-400/30 flex items-center justify-between mb-6 pb-2">
+                                    <div className="text-cyan-300 font-mono text-[10px] md:text-xs uppercase tracking-widest"><TypewriterText text="SYS.DASHBOARD_LIVE" /></div>
+                                    <div className="flex gap-2"><div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"/><div className="w-2 h-2 bg-cyan-400 rounded-full"/></div>
+                                </div>
+                                
+                                {/* Core message */}
+                                <div className="flex items-center gap-6 mb-8 w-full justify-center lg:justify-start lg:pl-4">
+                                    <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-full bg-cyan-400/20 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.6)]">
                                         <div className="w-6 h-10 md:w-8 md:h-12 border-b-4 border-r-4 border-cyan-300 transform rotate-45 -translate-y-2"></div>
                                     </div>
-                                    <h3 className="text-white font-display font-black text-2xl md:text-4xl tracking-widest uppercase shadow-[0_0_20px_rgba(255,255,255,0.5)] drop-shadow-lg mb-2">Sistema Online</h3>
-                                    <p className="text-cyan-200/80 font-mono text-xs md:text-sm tracking-widest uppercase">Ecosistema Pronto</p>
-                                </motion.div>
+                                    <div className="text-left">
+                                        <h3 className="text-white font-display font-black text-2xl md:text-3xl tracking-widest uppercase shadow-[0_0_20px_rgba(255,255,255,0.5)] drop-shadow-lg mb-1">SISTEMA ONLINE</h3>
+                                        <p className="text-cyan-200/80 font-mono text-[10px] md:text-[11px] tracking-widest uppercase">Ecosistema Popolato & Ottimizzato</p>
+                                    </div>
+                                </div>
+
+                                {/* Content Simulation */}
+                                <div className="w-full flex gap-4 h-full min-h-[120px] mb-2 pointer-events-auto">
+                                    <motion.div whileHover={{ scale: 1.02 }} className="flex-1 bg-black/40 border border-cyan-500/20 rounded-md p-4 flex flex-col justify-end cursor-crosshair">
+                                        <div className="flex items-end gap-2 w-full h-[60px]">
+                                            {[40, 70, 45, 90, 60, 100].map((h, i) => (
+                                                <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ duration: 1, delay: i*0.1 }} className="flex-1 w-full bg-gradient-to-t from-cyan-600 to-cyan-300 rounded-t-sm" />
+                                            ))}
+                                        </div>
+                                        <div className="mt-4 font-mono text-[9px] md:text-[10px] text-cyan-400 truncate">TRAFFICO AI: +340%</div>
+                                    </motion.div>
+                                    
+                                    <motion.div whileHover={{ scale: 1.02 }} className="flex-[1.5] bg-black/40 border border-purple-500/20 rounded-md p-4 flex flex-col gap-2 cursor-crosshair overflow-hidden">
+                                        <div className="font-mono text-[10px] text-purple-400 font-bold mb-1 truncate">LOG GENERAZIONE CONTENUTI</div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Copywriting SEO generato." /></div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Layout adattivo compilato." /></div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Asset 3D texturizzati." /></div>
+                                         <div className="mt-auto w-20 md:w-24 h-5 md:h-6 flex items-center justify-center bg-purple-500/80 rounded-sm font-sans text-[8px] text-white">READY</div>
+                                    </motion.div>
+                                </div>
+                            </motion.div>
                             ) : phase >= 3 ? (
-                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-4 w-full">
-                                    <div className="w-1/2 h-8 md:h-12 bg-cyan-300/80 rounded-md shadow-[0_0_30px_rgba(34,211,238,0.8)]" />
-                                    <div className="w-1/3 h-4 bg-cyan-200/60 rounded-md" />
-                                    <div className="w-40 h-10 mt-4 bg-purple-500/80 rounded-full border border-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-4 w-full pointer-events-auto">
+                                <motion.div 
+                                    whileHover={{ width: "80%", scale: 1.05 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                    className="w-1/2 h-8 md:h-12 bg-cyan-900/60 border border-cyan-400/50 rounded-md shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center cursor-ew-resize overflow-hidden"
+                                >
+                                    <div className="font-mono text-[10px] md:text-xs text-cyan-200 truncate px-2"><TypewriterText text="<Modulo_Hero_Dinamico />" /></div>
                                 </motion.div>
+                                
+                                <div className="flex gap-4 w-full px-8 md:px-12 justify-center">
+                                    <motion.div 
+                                        whileHover={{ scale: 1.1, flexGrow: 1 }}
+                                        className="w-1/3 h-16 md:h-20 bg-purple-900/40 border border-purple-500/30 rounded-md flex flex-col items-center justify-center cursor-nwse-resize"
+                                    >
+                                        <div className="font-mono text-[10px] md:text-xs text-purple-300">DATA_LAKE</div>
+                                        <div className="font-mono text-[8px] text-purple-400/50 mt-1"><TypewriterText text="Sync in corso..." /></div>
+                                    </motion.div>
+                                    
+                                    <motion.div 
+                                        whileHover={{ scale: 1.1, flexGrow: 1 }}
+                                        className="w-1/3 h-16 md:h-20 bg-cyan-900/40 border border-cyan-500/30 rounded-md flex flex-col items-center justify-center cursor-nwse-resize"
+                                    >
+                                        <div className="font-mono text-[10px] md:text-xs text-cyan-300">UI_ENGINE</div>
+                                        <div className="font-mono text-[8px] text-cyan-400/50 mt-1"><TypewriterText text="Compiling..." /></div>
+                                    </motion.div>
+                                </div>
+
+                                <motion.div 
+                                    whileHover={{ width: "60%" }}
+                                    className="w-40 h-10 mt-2 bg-purple-500/80 rounded-full border border-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.8)] cursor-pointer flex items-center justify-center overflow-hidden"
+                                >
+                                    <div className="font-mono text-[10px] text-white tracking-widest">OTTIMIZZA</div>
+                                </motion.div>
+                            </motion.div>
                             ) : (
                                 <motion.div exit={{ opacity: 0 }} className="flex flex-col items-center gap-4 w-full">
                                     <div className="w-1/2 h-8 md:h-12 bg-cyan-400/30 rounded-md" />
