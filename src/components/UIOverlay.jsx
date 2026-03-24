@@ -738,17 +738,40 @@ export function UIOverlay({ isBooted }) {
             {/* EVENT HORIZON: THE CLIMAX */}
             <motion.section 
                 style={{ opacity: ehOpacity, pointerEvents: ehPointerEvents }}
-                className="fixed inset-0 z-[100] flex items-center justify-center bg-white/20 backdrop-blur-xl transition-[backdrop-filter] duration-1000"
+                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-[30px] transition-all duration-1000 overflow-hidden"
             >
-                <div className="text-center flex flex-col items-center">
+                {/* Core Singularity Glow */}
+                <motion.div 
+                    animate={{ 
+                        scale: [1, 1.2, 1], 
+                        opacity: [0.6, 1, 0.6],
+                        rotate: [0, 90, 180] 
+                    }}
+                    transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                    className="absolute z-0 w-[600px] h-[400px] bg-cyan-500/20 rounded-[100%] blur-[120px] mix-blend-screen pointer-events-none"
+                />
+                <motion.div 
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0.8, 0.4] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 1 }}
+                    className="absolute z-0 w-[300px] h-[300px] bg-white/30 rounded-full blur-[80px] mix-blend-overlay pointer-events-none"
+                />
+
+                <div className="text-center flex flex-col items-center relative z-10 w-full max-w-2xl px-6">
                     <button 
                         onClick={() => setIsTerminalOpen(true)}
-                        className="pointer-events-auto px-10 md:px-14 py-5 md:py-6 bg-white text-black font-sans font-bold tracking-[0.3em] uppercase text-[10px] md:text-sm rounded-full hover:bg-black hover:text-white transition-all duration-500 shadow-[0_0_80px_rgba(255,255,255,1)] border border-transparent hover:border-white"
+                        className="group relative pointer-events-auto px-10 md:px-14 py-6 md:py-8 bg-transparent text-white font-sans font-bold tracking-[0.4em] uppercase text-[10px] md:text-sm rounded-full transition-all duration-500 overflow-hidden border border-cyan-400/30 hover:border-cyan-300"
                     >
-                        INIZIALIZZA IL TUO SPAZIO ORA
+                        {/* Hover Light Effect */}
+                        <div className="absolute inset-0 bg-cyan-400/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out" />
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        <span className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">INIZIALIZZA IL TUO SPAZIO ORA</span>
                     </button>
-                    <div className="mt-6 text-black/60 font-mono text-xs tracking-widest uppercase animate-pulse">
-                        [ SEQUENZA_AVVIO {'>'} AUTORIZZATA ]
+                    
+                    <div className="mt-8 text-cyan-200/60 font-mono text-xs tracking-widest uppercase animate-pulse flex items-center gap-4">
+                        <div className="w-12 h-[1px] bg-cyan-500/30" />
+                        [ SEQUENZA_AVVIO {'>'} STANDBY ]
+                        <div className="w-12 h-[1px] bg-cyan-500/30" />
                     </div>
                 </div>
             </motion.section>
