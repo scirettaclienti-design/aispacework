@@ -558,21 +558,21 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 1 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 top-[45%] md:top-[40%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center"
+                className="absolute inset-x-0 top-[40%] md:top-[35%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center"
             >
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto flex flex-col items-center">
                     <SpatialTitle 
                         text={["IL POTERE", "DEL PROMPT."]} 
                         trigger={heroVisible} 
                         duration={1.2}
-                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[6rem] xl:text-[7.5rem] font-display font-black mb-4 md:mb-8 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
+                        className="text-[clamp(3rem,8vw,5.5rem)] xl:text-[clamp(4rem,7vw,7rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
                     />
                     <MaskRevealText 
                         text="Ecosistemi Digitali Evoluti" 
                         trigger={heroVisible} 
                         element="h2"
                         delay={0.2}
-                        className="text-white/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-xs md:text-xl font-medium mb-8"
+                        className="text-white/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4"
                     />
                     <MaskRevealText 
                         text={[
@@ -581,7 +581,7 @@ export function UIOverlay({ isBooted }) {
                         ]}
                         trigger={heroVisible}
                         delay={0.4}
-                        className="text-white/70 font-sans font-normal text-sm md:text-xl max-w-2xl mx-auto mb-8"
+                        className="text-white/70 font-sans font-normal text-xs md:text-base max-w-2xl mx-auto mb-6"
                     />
                     <motion.button 
                         initial={{ opacity: 0 }}
