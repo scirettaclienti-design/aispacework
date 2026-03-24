@@ -45,18 +45,27 @@ export function NeuralCursor() {
 
     return (
         <>
-            {/* The outer animated, delayed ring */}
+            {/* The outer glowing spotlight */}
             <motion.div
-                className="fixed top-0 left-0 w-8 h-8 rounded-full border border-white/50 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+                className="fixed top-0 left-0 w-64 h-64 rounded-full bg-cyan-400/10 blur-[50px] pointer-events-none z-[9998] mix-blend-screen hidden md:block"
                 style={{
-                    x: cursorX,
-                    y: cursorY,
+                    x: useTransform(cursorX, x => x - 128 + 16),
+                    y: useTransform(cursorY, y => y - 128 + 16),
+                    opacity: isVisible ? 1 : 0
+                }}
+            />
+            {/* The secondary inner purple core */}
+            <motion.div
+                className="fixed top-0 left-0 w-32 h-32 rounded-full bg-purple-500/10 blur-[30px] pointer-events-none z-[9998] mix-blend-screen hidden md:block"
+                style={{
+                    x: useTransform(cursorX, x => x - 64 + 16),
+                    y: useTransform(cursorY, y => y - 64 + 16),
                     opacity: isVisible ? 1 : 0
                 }}
             />
             {/* The exact dot point */}
             <motion.div
-                className="fixed top-0 left-0 w-1.5 h-1.5 bg-white rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+                className="fixed top-0 left-0 w-1.5 h-1.5 bg-white shadow-[0_0_10px_rgba(255,255,255,1)] rounded-full pointer-events-none z-[9999] mix-blend-screen hidden md:block"
                 style={{
                     // Centered precisely on the exact mouse coordinate
                     x: useTransform(mouseX, x => x + 16 - 3), 

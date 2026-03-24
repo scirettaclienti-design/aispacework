@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useScroll, useTransform, useMotionValueEvent, useMotionValue, motion, AnimatePresence } from 'framer-motion';
+import { useScroll, useTransform, useMotionValueEvent, useMotionValue, motion, AnimatePresence, useSpring } from 'framer-motion';
 import { MaskRevealText } from './MaskRevealText';
 import { SpatialTitle } from './SpatialTitle';
 import { useHyperFocus } from '../HyperFocusContext';
@@ -7,6 +7,7 @@ import { X } from 'lucide-react';
 import { TerminalForm } from './TerminalForm';
 import { HyperBuilder } from './HyperBuilder';
 import { HoloTutor } from './HoloTutor';
+import { playHoverSound, playClickSound } from '../utils/audio';
 
 // Helpers for Terminal Effects
 const TypewriterText = ({ text }) => {
@@ -85,7 +86,7 @@ const AnimatedCounter = ({ value, prefix = "", suffix = "", delay = 0 }) => {
     return <span>{prefix}{count}{suffix}</span>;
 };
 
-const MagneticButton = ({ children, onClick, className }) => {
+const MagneticButton = ({ children, onClick, className, ...props }) => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const ref = useRef(null);
 
@@ -99,14 +100,21 @@ const MagneticButton = ({ children, onClick, className }) => {
 
     const reset = () => setPosition({ x: 0, y: 0 });
 
+    const handleClick = (e) => {
+        playClickSound();
+        if (onClick) onClick(e);
+    };
+
     return (
         <motion.button
             ref={ref}
             onMouseMove={handleMouse}
             onMouseLeave={reset}
-            animate={{ x: position.x, y: position.y }}
-            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-            onClick={onClick}
+            onMouseEnter={playHoverSound}
+            initial={props.initial}
+            animate={{ x: position.x, y: position.y, ...(props.animate || {}) }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1, ...(props.transition || {}) }}
+            onClick={handleClick}
             className={className}
         >
             {children}
@@ -319,6 +327,22 @@ export function UIOverlay({ isBooted }) {
     // -- EVENT HORIZON: FINAL WHITEOUT (0.95 - 1.0)
     const ehOpacity = useTransform(scrollYProgress, [0.95, 1.0], [0, 1], { clamp: true });
     const ehPointerEvents = useTransform(ehOpacity, (v) => v > 0.5 ? "auto" : "none");
+
+    // -- PARALLAX PHYSICS
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    useEffect(() => {
+        const handleGlobalMouse = (e) => {
+            mouseX.set(e.clientX / window.innerWidth - 0.5);
+            mouseY.set(e.clientY / window.innerHeight - 0.5);
+        };
+        window.addEventListener('mousemove', handleGlobalMouse);
+        return () => window.removeEventListener('mousemove', handleGlobalMouse);
+    }, [mouseX, mouseY]);
+
+    const globalRotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [4, -4]), { stiffness: 100, damping: 30 });
+    const globalRotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-4, 4]), { stiffness: 100, damping: 30 });
 
     // Visibility States to trigger Text Animations
     const [heroVisible, setHeroVisible] = useState(false); // Wait for boot
@@ -558,9 +582,9 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 1 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 top-[40%] md:top-[35%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center"
+                className="absolute inset-x-0 top-[40%] md:top-[35%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center perspective-[1000px]"
             >
-                <div className="max-w-4xl mx-auto flex flex-col items-center">
+                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center">
                     <SpatialTitle 
                         text={["IL POTERE", "DEL PROMPT."]} 
                         trigger={heroVisible} 
@@ -583,7 +607,7 @@ export function UIOverlay({ isBooted }) {
                         delay={0.4}
                         className="text-white/70 font-sans font-normal text-xs md:text-base max-w-2xl mx-auto mb-6"
                     />
-                    <motion.button 
+                    <MagneticButton 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: heroVisible ? 1 : 0 }}
                         transition={{ delay: 1 }}
@@ -591,8 +615,8 @@ export function UIOverlay({ isBooted }) {
                         className={`relative z-50 pointer-events-auto font-mono text-xs text-blue-400 hover:text-white hover:bg-white/10 transition-all border border-blue-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 1 ? "hidden" : ""}`}
                     >
                         [ {'>'} ESPANDI_DATI ]
-                    </motion.button>
-                </div>
+                    </MagneticButton>
+                </motion.div>
             </motion.section>
 
             {/* STATION 2: Piattaforme (Strictly Left Aligned) */}
@@ -604,9 +628,9 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 2 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-start pl-6 md:pl-[12vw] pr-6 transform-origin-left"
+                className="absolute inset-0 flex items-center justify-start pl-6 md:pl-[12vw] pr-6 transform-origin-left perspective-[1000px]"
             >
-                <div className="max-w-2xl">
+                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-2xl">
                     <MaskRevealText 
                         text="SYS.PLATFORM_V1" 
                         trigger={p1Visible} 
@@ -628,7 +652,7 @@ export function UIOverlay({ isBooted }) {
                         delay={0.3}
                         className="text-white/70 font-sans font-normal text-lg md:text-xl mb-8"
                     />
-                    <motion.button 
+                    <MagneticButton 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: p1Visible ? 1 : 0 }}
                         transition={{ delay: 0.8 }}
@@ -636,8 +660,8 @@ export function UIOverlay({ isBooted }) {
                         className={`pointer-events-auto font-mono text-xs text-cyan-400 hover:text-white hover:bg-white/10 transition-all border border-cyan-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 2 ? "hidden" : ""}`}
                     >
                         [ {'>'} ESPANDI_DATI ]
-                    </motion.button>
-                </div>
+                    </MagneticButton>
+                </motion.div>
             </motion.section>
 
             {/* STATION 3: Sviluppo IA (Strictly Right Aligned) */}
@@ -649,9 +673,9 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 3 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-end pr-6 md:pr-[12vw] pl-6 transform-origin-right"
+                className="absolute inset-0 flex items-center justify-end pr-6 md:pr-[12vw] pl-6 transform-origin-right perspective-[1000px]"
             >
-                <div className="max-w-3xl text-right">
+                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-3xl text-right flex flex-col items-end">
                     <MaskRevealText 
                         text="AGENTS & INSIGHTS" 
                         trigger={p2Visible} 
@@ -674,7 +698,7 @@ export function UIOverlay({ isBooted }) {
                         delay={0.3}
                         className="text-white/70 font-sans font-normal text-lg md:text-xl flex flex-col items-end mb-8"
                     />
-                    <motion.button 
+                    <MagneticButton 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: p2Visible ? 1 : 0 }}
                         transition={{ delay: 0.8 }}
@@ -682,8 +706,8 @@ export function UIOverlay({ isBooted }) {
                         className={`pointer-events-auto font-mono text-xs text-purple-400 hover:text-white hover:bg-white/10 transition-all border border-purple-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 3 ? "hidden" : ""}`}
                     >
                         [ {'>'} ESPANDI_DATI ]
-                    </motion.button>
-                </div>
+                    </MagneticButton>
+                </motion.div>
             </motion.section>
 
             {/* STATION 4: THE CORE (Center) */}
@@ -695,9 +719,9 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 4 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 bottom-[15vh] md:bottom-[25vh] flex flex-col items-center justify-center text-center px-6 transform-origin-bottom"
+                className="absolute inset-x-0 bottom-[15vh] md:bottom-[25vh] flex flex-col items-center justify-center text-center px-6 transform-origin-bottom perspective-[1000px]"
             >
-                 <div className="max-w-5xl w-full flex flex-col items-center">
+                 <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-5xl w-full flex flex-col items-center">
                     <SpatialTitle 
                         text={["UN ACCOUNT", "INFINITE", "CAPACITÀ."]} 
                         trigger={coreVisible} 
@@ -725,20 +749,23 @@ export function UIOverlay({ isBooted }) {
                             Entra in AI SPACE
                         </button>
                         
-                        <button 
+                        <MagneticButton 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: coreVisible ? 1 : 0 }}
+                            transition={{ delay: 0.2 }}
                             onClick={() => setHyperFocus(4)}
                             className={`pointer-events-auto font-mono text-xs text-white/50 hover:text-white hover:bg-white/10 transition-all border border-white/30 px-4 py-2 rounded-sm tracking-widest mt-4 ${hyperFocus === 4 ? "hidden" : ""}`}
                         >
                             [ {'>'} ESPANDI_DATI ]
-                        </button>
+                        </MagneticButton>
                     </motion.div>
-                </div>
+                </motion.div>
             </motion.section>
 
             {/* EVENT HORIZON: THE CLIMAX */}
             <motion.section 
                 style={{ opacity: ehOpacity, pointerEvents: ehPointerEvents }}
-                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-[30px] transition-all duration-1000 overflow-hidden"
+                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-[30px] transition-all duration-1000 overflow-hidden perspective-[1000px]"
             >
                 {/* Core Singularity Glow */}
                 <motion.div 
@@ -756,8 +783,8 @@ export function UIOverlay({ isBooted }) {
                     className="absolute z-0 w-[300px] h-[300px] bg-white/30 rounded-full blur-[80px] mix-blend-overlay pointer-events-none"
                 />
 
-                <div className="text-center flex flex-col items-center relative z-10 w-full max-w-2xl px-6">
-                    <button 
+                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="text-center flex flex-col items-center relative z-10 w-full max-w-2xl px-6">
+                    <MagneticButton 
                         onClick={() => setIsTerminalOpen(true)}
                         className="group relative pointer-events-auto px-10 md:px-14 py-6 md:py-8 bg-transparent text-white font-sans font-bold tracking-[0.4em] uppercase text-[10px] md:text-sm rounded-full transition-all duration-500 overflow-hidden border border-cyan-400/30 hover:border-cyan-300"
                     >
@@ -766,14 +793,14 @@ export function UIOverlay({ isBooted }) {
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
                         <span className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">INIZIALIZZA IL TUO SPAZIO ORA</span>
-                    </button>
+                    </MagneticButton>
                     
                     <div className="mt-8 text-cyan-200/60 font-mono text-xs tracking-widest uppercase animate-pulse flex items-center gap-4">
                         <div className="w-12 h-[1px] bg-cyan-500/30" />
                         [ SEQUENZA_AVVIO {'>'} STANDBY ]
                         <div className="w-12 h-[1px] bg-cyan-500/30" />
                     </div>
-                </div>
+                </motion.div>
             </motion.section>
 
             <HyperBuilder isOpen={fullScreenApp === 'builder'} onClose={() => setFullScreenApp(null)} />

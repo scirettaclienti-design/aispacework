@@ -25,18 +25,22 @@ export function MaskRevealText({
     const itemVariants = {
         hidden: { 
             y: "120%", 
-            scale: 0.95,
-            filter: "blur(15px)",
+            scale: 0.9,
+            rotateX: -45,
+            filter: "blur(10px)",
             opacity: 0 
         },
         visible: {
             y: "0%",
             scale: 1,
+            rotateX: 0,
             filter: "blur(0px)",
             opacity: 1,
             transition: { 
-                duration: 1.6, // Very smooth and luxurious for body text
-                ease: [0.16, 1, 0.3, 1] 
+                type: "spring",
+                damping: 20,
+                stiffness: 100,
+                mass: 1.2
             }
         }
     };
