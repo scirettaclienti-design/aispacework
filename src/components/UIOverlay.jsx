@@ -421,7 +421,8 @@ export function UIOverlay({ isBooted }) {
             title: "FORMAZIONE E SCALABILITÀ", 
             text: "L'evoluzione non si ferma mai. Mentre il tuo Tutor IA personale struttura percorsi didattici su misura per farti dominare le ultime tecnologie, i nostri agenti autonomi operano in background. Ottimizzano e scalano le tue piattaforme senza che tu debba muovere un dito. Impari, mentre il business cresce.",
             color: "text-purple-400",
-            expandedContent: "> Modelli Cognitivi: Attivi | > Analisi Predittiva: Online",
+            expandedContent: "> Elaborazione Avatar: 8k Res | > Analisi Predittiva: Online",
+            imageAsset: "/assets/neural_clone.png",
             microData: [
                 { label: "Curva_Apprendimento", value: "Ottimizzata" },
                 { label: "Automazione", value: "Silente_H24" }
@@ -509,6 +510,22 @@ export function UIOverlay({ isBooted }) {
                                         exit={{ opacity: 0 }}
                                         className="flex flex-col flex-1"
                                     >
+                                        {/* Optional Image Asset Preview for Advanced Context */}
+                                        {focusData[hyperFocus].imageAsset && (
+                                            <motion.div 
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ delay: 0.4 }}
+                                                className="w-full h-32 md:h-40 mb-6 mt-2 relative rounded-lg overflow-hidden border border-white/10 shadow-[0_0_20px_rgba(168,85,247,0.15)] shrink-0 bg-[#02050a]"
+                                            >
+                                                <img src={focusData[hyperFocus].imageAsset} alt="Preview Asset" className="w-full h-full object-cover mix-blend-screen scale-110 opacity-90" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#02050a] via-transparent to-transparent opacity-100" />
+                                                <div className="absolute top-2 right-2 flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/60 border border-white/10 text-[8px] font-mono text-cyan-300">
+                                                    <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" /> LIVE DEMO READY
+                                                </div>
+                                            </motion.div>
+                                        )}
+
                                         {/* Expanded List Items */}
                                         <motion.div 
                                             initial={{ opacity: 0 }}
@@ -519,7 +536,7 @@ export function UIOverlay({ isBooted }) {
                                             {focusData[hyperFocus].expandedContent.split('|').map((item, idx) => (
                                                 <div key={idx} className="flex items-start gap-2 mb-2">
                                                     <span className={`${focusData[hyperFocus].color} font-bold`}>{'> '}</span> 
-                                                    <span>{item.trim().replace(/^\[[+>]\]\s*|>\s*/, '')}</span>
+                                                    <span>{item.trim().replace(/^\[[+>\]\[]+\]\s*|>\s*/, '')}</span>
                                                 </div>
                                             ))}
                                         </motion.div>
@@ -553,7 +570,7 @@ export function UIOverlay({ isBooted }) {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 1.1, duration: 0.6 }}
-                                            className="w-full mt-auto"
+                                            className="w-full pb-24 md:pb-4 mt-auto"
                                         >
                                             <button 
                                                 onClick={focusData[hyperFocus].action}

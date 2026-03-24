@@ -42,7 +42,7 @@ const CyberAvatar = ({ step, isTalking }) => {
     return (
         <div 
             onMouseMove={handleMouseMove}
-            className="relative w-72 h-[380px] md:w-80 md:h-[420px] mb-12 flex flex-col items-center justify-center cursor-crosshair" 
+            className="relative w-[220px] h-[300px] sm:w-72 sm:h-[380px] md:w-80 md:h-[420px] mb-8 md:mb-12 flex flex-col items-center justify-center cursor-crosshair shrink-0" 
             style={{ perspective: "1000px" }}
         >
             <motion.div 
@@ -174,13 +174,13 @@ export function HoloTutor({ isOpen, onClose }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[9998] bg-[#020205] flex flex-col items-center justify-center p-6 md:p-12 overflow-hidden pointer-events-auto"
+                className="fixed inset-0 z-[9998] bg-[#020205] flex flex-col items-center justify-start md:justify-center pt-20 pb-40 px-6 md:p-12 overflow-y-auto overflow-x-hidden pointer-events-auto custom-scrollbar"
             >
-                {/* Neural Globe removed, CyberAvatar replacing it */}
-                <CyberAvatar step={step} isTalking={isTalking} />
+                <div className="w-full flex-1 max-w-4xl flex flex-col items-center min-h-max">
+                    <CyberAvatar step={step} isTalking={isTalking} />
 
-                {/* Interactive Area */}
-                <div className="w-full max-w-2xl flex flex-col items-center gap-6 z-10 relative">
+                    {/* Interactive Area */}
+                    <div className="w-full max-w-2xl flex flex-col items-center gap-6 z-10 relative mt-4 md:mt-0 pb-12">
                     
                     {/* Chat Input */}
                     <div className={`w-full transition-all duration-500 ${step === 0 || step === 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none absolute'}`}>
@@ -228,11 +228,12 @@ export function HoloTutor({ isOpen, onClose }) {
                     {/* Close Button */}
                     <button 
                         onClick={onClose}
-                        className="mt-12 text-white/50 hover:text-white uppercase text-sm md:text-base tracking-widest border border-white/20 px-8 py-4 hover:bg-white/10 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all font-mono"
+                        className="mt-8 md:mt-12 text-white/50 hover:text-white uppercase text-xs md:text-base tracking-widest border border-white/20 px-6 py-3 md:px-8 md:py-4 hover:bg-white/10 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all font-mono"
                     >
                         [ TERMINA CONNESSIONE NEURALE ]
                     </button>
                     
+                </div>
                 </div>
             </motion.div>
         </AnimatePresence>
