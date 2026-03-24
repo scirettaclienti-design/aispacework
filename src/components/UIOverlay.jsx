@@ -558,14 +558,14 @@ export function UIOverlay({ isBooted }) {
                     opacity: hyperFocus === 1 ? 0.3 : 1
                 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 top-[40%] md:top-[35%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center"
+                className="absolute inset-x-0 top-[45%] md:top-[40%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center"
             >
                 <div className="max-w-4xl mx-auto">
                     <SpatialTitle 
                         text={["IL POTERE", "DEL PROMPT."]} 
                         trigger={heroVisible} 
                         duration={1.2}
-                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[8rem] font-display font-black mb-4 md:mb-8 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
+                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[6rem] xl:text-[7.5rem] font-display font-black mb-4 md:mb-8 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
                     />
                     <MaskRevealText 
                         text="Ecosistemi Digitali Evoluti" 
@@ -588,7 +588,7 @@ export function UIOverlay({ isBooted }) {
                         animate={{ opacity: heroVisible ? 1 : 0 }}
                         transition={{ delay: 1 }}
                         onClick={() => setHyperFocus(1)}
-                        className={`pointer-events-auto font-mono text-xs text-blue-400 hover:text-white hover:bg-white/10 transition-all border border-blue-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 1 ? "hidden" : ""}`}
+                        className={`relative z-50 pointer-events-auto font-mono text-xs text-blue-400 hover:text-white hover:bg-white/10 transition-all border border-blue-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 1 ? "hidden" : ""}`}
                     >
                         [ {'>'} ESPANDI_DATI ]
                     </motion.button>

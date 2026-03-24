@@ -47,8 +47,11 @@ export function HyperBuilder({ isOpen, onClose }) {
             // Phase 5: Floating Tags & Close Button (5.0s)
             const t5 = setTimeout(() => setPhase(5), 5000);
 
+            // Phase 6: Finalization (6.0s)
+            const t6 = setTimeout(() => setPhase(6), 6500);
+
             return () => {
-                clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5);
+                clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); clearTimeout(t5); clearTimeout(t6);
             };
         } else {
             document.body.style.overflow = '';
@@ -127,7 +130,19 @@ export function HyperBuilder({ isOpen, onClose }) {
                         />
                         {/* Skeleton elements inside Hero populated at phase 3 */}
                         <AnimatePresence>
-                            {phase >= 3 ? (
+                            {phase >= 6 ? (
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.95 }} 
+                                    animate={{ opacity: 1, scale: 1 }} 
+                                    className="absolute inset-0 flex flex-col items-center justify-center bg-cyan-900/40 backdrop-blur-md z-20 rounded-xl border border-cyan-400/50"
+                                >
+                                    <div className="w-16 h-16 md:w-20 md:h-20 mb-4 rounded-full bg-cyan-400/20 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.6)]">
+                                        <div className="w-6 h-10 md:w-8 md:h-12 border-b-4 border-r-4 border-cyan-300 transform rotate-45 -translate-y-2"></div>
+                                    </div>
+                                    <h3 className="text-white font-display font-black text-2xl md:text-4xl tracking-widest uppercase shadow-[0_0_20px_rgba(255,255,255,0.5)] drop-shadow-lg mb-2">Sistema Online</h3>
+                                    <p className="text-cyan-200/80 font-mono text-xs md:text-sm tracking-widest uppercase">Ecosistema Pronto</p>
+                                </motion.div>
+                            ) : phase >= 3 ? (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-4 w-full">
                                     <div className="w-1/2 h-8 md:h-12 bg-cyan-300/80 rounded-md shadow-[0_0_30px_rgba(34,211,238,0.8)]" />
                                     <div className="w-1/3 h-4 bg-cyan-200/60 rounded-md" />
@@ -186,7 +201,7 @@ export function HyperBuilder({ isOpen, onClose }) {
                                 className="absolute top-12 left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-24 md:top-1/3 z-20 flex flex-col md:flex-row items-center group pointer-events-none gap-2 md:gap-0"
                             >
                                 <div className="bg-cyan-950/60 border border-cyan-400/40 backdrop-blur-xl px-4 py-3 rounded-md font-mono text-xs md:text-sm text-white shadow-[0_0_20px_rgba(34,211,238,0.3)]">
-                                    <span className="text-cyan-400">&gt;</span> Generazione: <span className="font-bold tracking-widest text-cyan-200">1.2s</span>
+                                    <span className="text-cyan-400">&gt;</span> Setup Architettura: <span className="font-bold tracking-widest text-cyan-200">COMPLETATO</span>
                                 </div>
                                 <div className="w-[1px] h-12 md:w-32 md:h-[1px] bg-gradient-to-b md:bg-gradient-to-r from-cyan-400/80 to-transparent" />
                             </motion.div>
@@ -199,7 +214,7 @@ export function HyperBuilder({ isOpen, onClose }) {
                                 className="absolute bottom-32 left-1/2 -translate-x-1/2 md:-translate-x-0 md:right-24 md:left-auto md:bottom-1/3 z-20 flex flex-col-reverse md:flex-row-reverse items-center pointer-events-none gap-2 md:gap-0"
                             >
                                 <div className="bg-purple-950/60 border border-purple-400/40 backdrop-blur-xl px-4 py-3 rounded-md font-mono text-xs md:text-sm text-white shadow-[0_0_20px_rgba(192,132,252,0.3)]">
-                                    <span className="text-purple-400">&gt;</span> Debito Tecnico: <span className="font-bold tracking-widest text-purple-200">0%</span>
+                                    <span className="text-purple-400">&gt;</span> Stato Sistema: <span className="font-bold tracking-widest text-purple-200">ONLINE</span>
                                 </div>
                                 <div className="w-[1px] h-12 md:w-32 md:h-[1px] bg-gradient-to-t md:bg-gradient-to-l from-purple-400/80 to-transparent" />
                             </motion.div>
