@@ -30,85 +30,71 @@ const TypewriterText = React.memo(({ text, onComplete }) => {
 const DURATIONS = [0.25, 0.32, 0.28, 0.35, 0.22];
 
 const CyberAvatar = ({ step, isTalking }) => {
+    // Parallax mouse effect
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const handleMouseMove = (e) => {
+        const { clientX, clientY } = e;
+        const x = (clientX / window.innerWidth - 0.5) * 15;
+        const y = (clientY / window.innerHeight - 0.5) * 15;
+        setMousePos({ x, y });
+    };
+
     return (
-        <div className="relative w-64 h-64 md:w-80 md:h-80 flex flex-col items-center justify-center mb-12" style={{ perspective: "1000px" }}>
-            
-            {/* Astrolabe Containment Rings */}
+        <div 
+            onMouseMove={handleMouseMove}
+            className="relative w-72 h-[380px] md:w-80 md:h-[420px] mb-12 flex flex-col items-center justify-center cursor-crosshair" 
+            style={{ perspective: "1000px" }}
+        >
             <motion.div 
-                className="absolute inset-0 rounded-full border border-cyan-400/20 mix-blend-screen"
-                animate={{ rotateX: 360, rotateY: 180 }}
-                transition={{ repeat: Infinity, duration: step === 1 ? 4 : 20, ease: "linear" }}
+                animate={{ rotateX: -mousePos.y, rotateY: mousePos.x }}
+                transition={{ type: "spring", stiffness: 100, damping: 30 }}
+                className="w-full h-full relative rounded-2xl border border-cyan-500/30 bg-[#02050a] shadow-[0_0_50px_rgba(34,211,238,0.15)] overflow-hidden"
                 style={{ transformStyle: "preserve-3d" }}
-            />
-            <motion.div 
-                className="absolute inset-4 rounded-full border border-cyan-400/20 mix-blend-screen"
-                animate={{ rotateX: -360, rotateZ: 360 }}
-                transition={{ repeat: Infinity, duration: step === 1 ? 3 : 15, ease: "linear" }}
-                style={{ transformStyle: "preserve-3d" }}
-            />
-            <motion.div 
-                className="absolute inset-8 rounded-full border border-purple-400/20 mix-blend-screen"
-                animate={{ rotateY: -360, rotateZ: -180 }}
-                transition={{ repeat: Infinity, duration: step === 1 ? 5 : 25, ease: "linear" }}
-                style={{ transformStyle: "preserve-3d" }}
-            />
+            >
+                {/* Neural Clone Image */}
+                <img 
+                    src="/assets/neural_clone.png" 
+                    alt="Neural Clone System" 
+                    className="absolute inset-0 w-full h-full object-cover mix-blend-screen scale-105"
+                />
 
-            {/* Inner Face Container */}
-            <div className="relative w-40 h-48 md:w-48 md:h-56 flex flex-col items-center justify-center">
-                {/* Outline Face Ring */}
+                {/* Glitch / Holographic Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020205] via-transparent to-black/40 z-10" />
+
+                {/* Scanning Line */}
                 <motion.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: step === 1 ? 5 : 20, ease: "linear" }}
-                    className="absolute inset-0 border border-purple-500/30 rounded-[40%] mix-blend-screen"
+                    animate={{ top: ['-10%', '110%'] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                    className="absolute left-0 right-0 h-0.5 bg-cyan-400/80 z-20 shadow-[0_0_20px_10px_rgba(34,211,238,0.4)] mix-blend-screen"
                 />
-                <motion.div 
-                    animate={{ rotate: -360 }}
-                    transition={{ repeat: Infinity, duration: step === 1 ? 3 : 15, ease: "linear" }}
-                    className="absolute inset-4 border border-cyan-400/30 rounded-[35%] mix-blend-screen"
-                />
-                
-                {/* Eyes */}
-                <div className="absolute top-[30%] w-full flex justify-center gap-8 md:gap-12 opacity-80">
-                    <motion.div 
-                        animate={{ 
-                            scale: step === 1 ? [1, 1.5, 1] : [1, 1.1, 1], 
-                            opacity: step === 1 ? [0.8, 1, 0.8] : [0.4, 0.6, 0.4],
-                            boxShadow: isTalking ? '0 0 40px rgba(34,211,238,1)' : '0 0 20px rgba(34,211,238,0.8)'
-                        }}
-                        transition={{ repeat: Infinity, duration: step === 1 ? 0.2 : 3 }}
-                        className="w-8 h-2 md:w-10 md:h-2 bg-cyan-400 rounded-full"
-                    />
-                    <motion.div 
-                        animate={{ 
-                            scale: step === 1 ? [1, 1.5, 1] : [1, 1.1, 1], 
-                            opacity: step === 1 ? [0.8, 1, 0.8] : [0.4, 0.6, 0.4],
-                            boxShadow: isTalking ? '0 0 40px rgba(192,132,252,1)' : '0 0 20px rgba(192,132,252,0.8)'
-                        }}
-                        transition={{ repeat: Infinity, duration: step === 1 ? 0.2 : 3, delay: 0.1 }}
-                        className="w-8 h-2 md:w-10 md:h-2 bg-purple-400 rounded-full"
-                    />
+
+                {/* Tracking Dots Overlay */}
+                <div className="absolute inset-0 z-20 pointer-events-none mix-blend-screen">
+                    <motion.div animate={isTalking ? { scale: [1, 2, 1], opacity: [0.5, 1, 0.5] } : {}} transition={{ repeat: Infinity, duration: 0.8 }} className="absolute top-[42%] left-[38%] w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-[0_0_10px_2px_rgba(34,211,238,1)]" />
+                    <motion.div animate={isTalking ? { scale: [1, 2, 1], opacity: [0.5, 1, 0.5] } : {}} transition={{ repeat: Infinity, duration: 0.8, delay: 0.3 }} className="absolute top-[42%] right-[38%] w-1.5 h-1.5 bg-purple-400 rounded-full shadow-[0_0_10px_2px_rgba(168,85,247,1)]" />
+                    <motion.div animate={isTalking ? { height: ["10%", "100%", "30%", "80%", "10%"] } : { height: "10%" }} transition={{ repeat: Infinity, duration: 1.2, ease: "linear", repeatType: "mirror" }} className="absolute bottom-[35%] left-1/2 -translate-x-1/2 w-8 h-1 flex justify-between gap-1">
+                        <div className="w-1 bg-cyan-400 h-full rounded-sm shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                        <div className="w-1 bg-purple-400 h-[60%] rounded-sm shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
+                        <div className="w-1 bg-cyan-400 h-[80%] rounded-sm shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                    </motion.div>
                 </div>
 
-                {/* Nose/Center Structure */}
-                <div className="absolute top-[50%] w-1 h-6 md:h-8 bg-white/10 rounded-full" />
-
-                {/* Mouth (Spectrum Analyzer) */}
-                <div className="absolute bottom-[20%] w-full flex justify-center items-end h-8 md:h-10 gap-2">
-                    {[...Array(5)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            animate={isTalking ? { height: ["20%", "100%", "30%", "80%", "10%"] } : { height: "10%" }}
-                            transition={{ 
-                                repeat: Infinity, 
-                                duration: isTalking ? DURATIONS[i] : 1, 
-                                ease: "linear",
-                                repeatType: "mirror"
-                            }}
-                            className="w-1.5 md:w-2 bg-gradient-to-t from-cyan-400 to-purple-500 rounded-sm shadow-[0_0_15px_rgba(232,121,249,0.5)] origin-bottom"
-                        />
-                    ))}
+                {/* API Logs Output */}
+                <div className="absolute bottom-4 left-4 right-4 z-30 font-mono text-[9px] md:text-[10px] text-cyan-300/80 flex flex-col gap-1.5 bg-black/60 backdrop-blur-md p-3 rounded border border-white/10">
+                    <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-2"><div className={`w-1.5 h-1.5 rounded-full ${step >= 1 ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`} /> [API] HEYGEN_TTS_V4</span>
+                        <span className={step >= 1 ? 'text-green-400' : 'text-gray-500'}>{step >= 1 ? 'ACTIVE' : 'IDLE'}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-2"><div className={`w-1.5 h-1.5 rounded-full ${isTalking ? 'bg-purple-400 animate-pulse' : 'bg-gray-500'}`} /> [LLM] SYNC_OPENAI_GPT4</span>
+                        <span className={isTalking ? 'text-purple-400' : 'text-gray-500'}>{isTalking ? '12ms' : '--'}</span>
+                    </div>
                 </div>
-            </div>
+
+                {/* UI Frame Accents */}
+                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-white/30 z-30" />
+                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-white/30 z-30" />
+            </motion.div>
 
             {/* Floating Interaction Widgets */}
             <AnimatePresence>

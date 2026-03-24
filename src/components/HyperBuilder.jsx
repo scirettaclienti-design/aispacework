@@ -17,6 +17,18 @@ const TypewriterText = React.memo(({ text, onComplete }) => {
     return <span>{displayed}</span>;
 });
 
+const ApiNode = React.memo(({ label, iconClass, dotClass, textClass, animatePath }) => (
+    <motion.div
+        animate={animatePath}
+        transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
+        className="absolute z-30 flex flex-col items-center gap-2 pointer-events-none"
+    >
+        <div className={`w-10 h-10 md:w-14 md:h-14 rounded-full border shadow-[0_0_30px_rgba(0,0,0,0.8)] bg-[#02050a]/90 backdrop-blur-xl flex items-center justify-center ${iconClass}`}>
+            <div className={`w-3 h-3 md:w-4 md:h-4 rounded-full animate-pulse ${dotClass}`} />
+        </div>
+        <div className={`font-mono text-[8px] md:text-[10px] font-bold uppercase bg-black/80 border border-white/10 px-2.5 py-1 rounded shadow-lg ${textClass}`}>{label}</div>
+    </motion.div>
+));
 
 export function HyperBuilder({ isOpen, onClose }) {
     const [phase, setPhase] = useState(0);
@@ -175,20 +187,46 @@ export function HyperBuilder({ isOpen, onClose }) {
                                     <motion.div whileHover={{ scale: 1.02 }} className="flex-1 bg-black/40 border border-cyan-500/20 rounded-md p-4 flex flex-col justify-end cursor-crosshair">
                                         <div className="flex items-end gap-2 w-full h-[60px]">
                                             {[40, 70, 45, 90, 60, 100].map((h, i) => (
-                                                <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ duration: 1, delay: i*0.1 }} className="flex-1 w-full bg-gradient-to-t from-cyan-600 to-cyan-300 rounded-t-sm" />
+                                                <motion.div key={i} initial={{ height: 0 }} animate={{ height: `${h}%` }} transition={{ duration: 1, delay: i*0.1 }} className="flex-1 w-full bg-gradient-to-t from-cyan-600 to-cyan-300 rounded-t-sm shadow-[0_0_15px_rgba(34,211,238,0.2)]" />
                                             ))}
                                         </div>
                                         <div className="mt-4 font-mono text-[9px] md:text-[10px] text-cyan-400 truncate">TRAFFICO AI: +340%</div>
                                     </motion.div>
                                     
-                                    <motion.div whileHover={{ scale: 1.02 }} className="flex-[1.5] bg-black/40 border border-purple-500/20 rounded-md p-4 flex flex-col gap-2 cursor-crosshair overflow-hidden">
-                                        <div className="font-mono text-[10px] text-purple-400 font-bold mb-1 truncate">LOG GENERAZIONE CONTENUTI</div>
-                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Copywriting SEO generato." /></div>
-                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Layout adattivo compilato." /></div>
-                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="[OK] Asset 3D texturizzati." /></div>
-                                         <div className="mt-auto w-20 md:w-24 h-5 md:h-6 flex items-center justify-center bg-purple-500/80 rounded-sm font-sans text-[8px] text-white">READY</div>
+                                    <motion.div whileHover={{ scale: 1.02 }} className="flex-[1.5] bg-black/40 border border-purple-500/20 rounded-md p-4 flex flex-col gap-2 cursor-crosshair overflow-hidden relative">
+                                        {/* CSS Laser Stream visual from API nodes to the panel */}
+                                        <motion.div animate={{ left: ['-10%', '110%'] }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="absolute h-[1px] w-[50%] bg-gradient-to-r from-transparent via-purple-400 to-transparent top-4 mix-blend-screen shadow-[0_0_10px_rgba(168,85,247,1)]" />
+
+                                        <div className="font-mono text-[10px] text-purple-400 font-bold mb-1 truncate">LOG INGESTIONE DATI & API</div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="> POST /ai/v2/copy_gen [201 CREATED]" /></div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="> GET /api/stripe_sub [200 OK - 12ms]" /></div>
+                                         <div className="w-full font-mono text-[8px] md:text-[9px] text-purple-200/70 truncate"><TypewriterText text="> WSS://db.supabase.co [CONNECTED]" /></div>
+                                         <div className="mt-auto w-20 md:w-24 h-5 md:h-6 flex items-center justify-center bg-purple-500/80 rounded-sm font-sans text-[8px] text-white tracking-widest">LIVE DATA</div>
                                     </motion.div>
                                 </div>
+                                
+                                {/* API Nodes Orbiting Dashboard */}
+                                <ApiNode 
+                                    label="STRIPE API" 
+                                    iconClass="border-purple-500/50" 
+                                    dotClass="bg-purple-400 shadow-[0_0_15px_2px_rgba(168,85,247,1)]" 
+                                    textClass="text-purple-300"
+                                    animatePath={{ x: [-100, 100, 150, -50, -100], y: [-150, -100, 50, -100, -150], z: [20, 50, 20, -10, 20] }}
+                                />
+                                <ApiNode 
+                                    label="OPENAI GPT-4" 
+                                    iconClass="border-green-500/50" 
+                                    dotClass="bg-green-400 shadow-[0_0_15px_2px_rgba(74,222,128,1)]" 
+                                    textClass="text-green-300"
+                                    animatePath={{ x: [150, 50, -100, 100, 150], y: [100, 150, 0, -100, 100], z: [10, -30, 10, 50, 10] }}
+                                />
+                                <ApiNode 
+                                    label="SUPABASE DB" 
+                                    iconClass="border-cyan-500/50" 
+                                    dotClass="bg-cyan-400 shadow-[0_0_15px_2px_rgba(34,211,238,1)]" 
+                                    textClass="text-cyan-300"
+                                    animatePath={{ x: [0, -150, -50, 150, 0], y: [150, 50, -150, -50, 150], z: [50, 20, -50, 20, 50] }}
+                                />
                             </motion.div>
                             ) : phase >= 3 ? (
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-4 w-full pointer-events-auto">
