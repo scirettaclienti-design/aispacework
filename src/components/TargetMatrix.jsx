@@ -199,7 +199,7 @@ export function TargetMatrix({ isOpen, onClose }) {
                                     animate={{ opacity: 1, z: 0, rotateX: 0 }}
                                     exit={{ opacity: 0, z: 200, rotateX: -20, filter: "blur(10px)" }}
                                     transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
-                                    className="flex-1 flex flex-col pointer-events-auto w-full pt-4"
+                                    className="flex-1 flex flex-col pointer-events-auto w-full pt-4 overflow-y-auto overflow-x-hidden custom-scrollbar pb-24"
                                     style={{ perspective: "1500px", transformStyle: "preserve-3d" }}
                                 >
                                     <div className="flex items-start gap-6 max-w-2xl mb-12 border-l border-white/20 pl-6 relative transform-gpu translate-z-10">
@@ -320,7 +320,7 @@ export function TargetMatrix({ isOpen, onClose }) {
                                                             <div className={`font-mono text-sm md:text-base font-bold ${activeNode.colors.text} mb-2 tracking-wide flex items-center gap-2`}>
                                                                 {ag.name}
                                                             </div>
-                                                            <div className="font-sans text-sm md:text-base font-light text-white/70 leading-relaxed border-l border-white/5 pl-4 ml-1">
+                                                            <div className="hidden md:block font-sans text-sm md:text-base font-light text-white/70 leading-relaxed border-l border-white/5 pl-4 ml-1">
                                                                 {ag.desc}
                                                             </div>
                                                         </motion.div>
@@ -335,11 +335,11 @@ export function TargetMatrix({ isOpen, onClose }) {
                                         initial={{ rotateY: -30, x: 100, opacity: 0 }}
                                         animate={{ rotateY: -10, x: 0, opacity: 1 }}
                                         transition={{ duration: 1, delay: 0.2, type: "spring" }}
-                                        className="flex-1 flex flex-col gap-6 relative z-10 w-full min-h-[500px] transform-gpu origin-right"
+                                        className="flex-1 flex flex-col gap-6 relative z-10 w-full min-h-0 md:min-h-[500px] transform-gpu origin-right"
                                     >
                                         
                                         {/* Cinematic Execution Terminal */}
-                                        <div className="flex-1 bg-[#010204]/90 rounded border border-white/10 p-6 md:p-8 backdrop-blur-xl shadow-2xl flex flex-col relative overflow-hidden group">
+                                        <div className="hidden md:flex flex-1 bg-[#010204]/90 rounded border border-white/10 p-6 md:p-8 backdrop-blur-xl shadow-2xl flex-col relative overflow-hidden group">
                                             {/* Top Bar Terminal */}
                                             <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
                                                 <div className="flex items-center gap-3">
