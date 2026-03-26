@@ -9,6 +9,15 @@ import { HyperBuilder } from './HyperBuilder';
 import { HoloTutor } from './HoloTutor';
 import { playHoverSound, playClickSound } from '../utils/audio';
 
+import { HeroSection } from './sections/HeroSection';
+import { OutcomeSection } from './sections/OutcomeSection';
+import { AudienceSection } from './sections/AudienceSection';
+import { EcosystemModulesSection } from './sections/EcosystemModulesSection';
+import { PromptFirstSection } from './sections/PromptFirstSection';
+import { VisionSection } from './sections/VisionSection';
+import { TargetRadar3D } from './TargetRadar3D';
+import { TargetMatrix } from './TargetMatrix';
+
 // Helpers for Terminal Effects
 const TypewriterText = ({ text }) => {
     return (
@@ -86,41 +95,7 @@ const AnimatedCounter = ({ value, prefix = "", suffix = "", delay = 0 }) => {
     return <span>{prefix}{count}{suffix}</span>;
 };
 
-const MagneticButton = ({ children, onClick, className, ...props }) => {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const ref = useRef(null);
-
-    const handleMouse = (e) => {
-        const { clientX, clientY } = e;
-        const { height, width, left, top } = ref.current.getBoundingClientRect();
-        const middleX = clientX - (left + width/2);
-        const middleY = clientY - (top + height/2);
-        setPosition({ x: middleX * 0.3, y: middleY * 0.3 });
-    };
-
-    const reset = () => setPosition({ x: 0, y: 0 });
-
-    const handleClick = (e) => {
-        playClickSound();
-        if (onClick) onClick(e);
-    };
-
-    return (
-        <motion.button
-            ref={ref}
-            onMouseMove={handleMouse}
-            onMouseLeave={reset}
-            onMouseEnter={playHoverSound}
-            initial={props.initial}
-            animate={{ x: position.x, y: position.y, ...(props.animate || {}) }}
-            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1, ...(props.transition || {}) }}
-            onClick={handleClick}
-            className={className}
-        >
-            {children}
-        </motion.button>
-    );
-};
+import { MagneticButton } from './MagneticButton';
 
 const BlinkingCursor = () => (
     <motion.span
@@ -299,33 +274,44 @@ const NeuralSimulation = () => {
 export function UIOverlay({ isBooted }) {
     const { scrollYProgress } = useScroll();
 
-    // -- STATION 1: HERO (0 - 0.18)
-    // Visible at start, dissolves completely by 0.18, overlapping with Station 2
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.08, 0.18], [1, 1, 0], { clamp: true });
-    const heroY = useTransform(scrollYProgress, [0, 0.08, 0.18], ["0%", "0%", "-30px"], { clamp: true });
+    // -- STATION 1: HERO (0 - 0.15)
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.05, 0.12], [1, 1, 0], { clamp: true });
+    const heroY = useTransform(scrollYProgress, [0, 0.05, 0.12], ["0%", "0%", "-30px"], { clamp: true });
     const heroPointerEvents = useTransform(heroOpacity, (v) => v > 0 ? "auto" : "none");
-    const heroDisplay = useTransform(scrollYProgress, (v) => v > 0.2 ? "none" : "flex");
+    const heroDisplay = useTransform(scrollYProgress, (v) => v > 0.15 ? "none" : "flex");
 
-    // -- STATION 2: Piattaforme (0.12 - 0.48)
-    // Crossfades in as Hero fades out
-    const p1Opacity = useTransform(scrollYProgress, [0.12, 0.22, 0.38, 0.48], [0, 1, 1, 0], { clamp: true });
-    const p1Y = useTransform(scrollYProgress, [0.12, 0.22, 0.38, 0.48], ["30px", "0px", "0px", "-80px"], { clamp: true });
+    // -- STATION 2: OUTCOMES (0.12 - 0.35)
+    const p1Opacity = useTransform(scrollYProgress, [0.08, 0.15, 0.28, 0.35], [0, 1, 1, 0], { clamp: true });
+    const p1Y = useTransform(scrollYProgress, [0.08, 0.15, 0.28, 0.35], ["30px", "0px", "0px", "-80px"], { clamp: true });
     const p1PointerEvents = useTransform(p1Opacity, (v) => v > 0 ? "auto" : "none");
+    const p1Display = useTransform(scrollYProgress, (v) => v > 0.38 || v < 0.05 ? "none" : "flex");
 
-    // -- STATION 3: Sviluppo IA (0.42 - 0.78)
-    // Crossfades in as P1 fades out
-    const p2Opacity = useTransform(scrollYProgress, [0.42, 0.52, 0.68, 0.78], [0, 1, 1, 0], { clamp: true });
-    const p2Y = useTransform(scrollYProgress, [0.42, 0.52, 0.68, 0.78], ["30px", "0px", "0px", "-80px"], { clamp: true });
+    // -- STATION 3: AUDIENCE (0.3 - 0.55)
+    const authOpacity = useTransform(scrollYProgress, [0.3, 0.38, 0.5, 0.58], [0, 1, 1, 0], { clamp: true });
+    const authY = useTransform(scrollYProgress, [0.3, 0.38, 0.5, 0.58], ["30px", "0px", "0px", "-80px"], { clamp: true });
+    const authPointerEvents = useTransform(authOpacity, (v) => v > 0 ? "auto" : "none");
+    const authDisplay = useTransform(scrollYProgress, (v) => v > 0.6 || v < 0.25 ? "none" : "flex");
+
+    // -- STATION 4: MODULES (0.55 - 0.75)
+    const p2Opacity = useTransform(scrollYProgress, [0.55, 0.62, 0.72, 0.78], [0, 1, 1, 0], { clamp: true });
+    const p2Y = useTransform(scrollYProgress, [0.55, 0.62, 0.72, 0.78], ["30px", "0px", "0px", "-80px"], { clamp: true });
     const p2PointerEvents = useTransform(p2Opacity, (v) => v > 0 ? "auto" : "none");
+    const p2Display = useTransform(scrollYProgress, (v) => v > 0.8 || v < 0.5 ? "none" : "flex");
 
-    // -- STATION 4: CORE (0.72 - 0.95)
-    // Crossfades in as P2 fades out
-    const coreOpacity = useTransform(scrollYProgress, [0.72, 0.82, 0.95], [0, 1, 0], { clamp: true });
-    const coreY = useTransform(scrollYProgress, [0.72, 0.82, 0.95], ["30px", "0px", "-50px"], { clamp: true });
+    // -- STATION 5: PROMPT FIRST (0.75 - 0.9)
+    const pfOpacity = useTransform(scrollYProgress, [0.75, 0.82, 0.9, 0.95], [0, 1, 1, 0], { clamp: true });
+    const pfY = useTransform(scrollYProgress, [0.75, 0.82, 0.9, 0.95], ["30px", "0px", "0px", "-80px"], { clamp: true });
+    const pfPointerEvents = useTransform(pfOpacity, (v) => v > 0 ? "auto" : "none");
+    const pfDisplay = useTransform(scrollYProgress, (v) => v > 0.96 || v < 0.7 ? "none" : "flex");
+
+    // -- STATION 6: VISION (0.92 - 1.0)
+    const coreOpacity = useTransform(scrollYProgress, [0.92, 0.96, 1.0], [0, 1, 1], { clamp: true });
+    const coreY = useTransform(scrollYProgress, [0.92, 0.96, 1.0], ["30px", "0px", "0px"], { clamp: true });
     const corePointerEvents = useTransform(coreOpacity, (v) => v > 0 ? "auto" : "none");
+    const coreDisplay = useTransform(scrollYProgress, (v) => v < 0.88 ? "none" : "flex");
 
     // -- EVENT HORIZON: FINAL WHITEOUT (0.95 - 1.0)
-    const ehOpacity = useTransform(scrollYProgress, [0.95, 1.0], [0, 1], { clamp: true });
+    const ehOpacity = useTransform(scrollYProgress, [0.96, 1.0], [0, 1], { clamp: true });
     const ehPointerEvents = useTransform(ehOpacity, (v) => v > 0.5 ? "auto" : "none");
 
     // -- PARALLAX PHYSICS
@@ -366,10 +352,22 @@ export function UIOverlay({ isBooted }) {
         else if (latest === 0 && p1Visible) setP1Visible(false);
     });
 
+    const [authVisible, setAuthVisible] = useState(false);
+    useMotionValueEvent(authOpacity, "change", (latest) => {
+        if (latest > 0.05 && !authVisible) setAuthVisible(true);
+        else if (latest === 0 && authVisible) setAuthVisible(false);
+    });
+
     const [p2Visible, setP2Visible] = useState(false);
     useMotionValueEvent(p2Opacity, "change", (latest) => {
         if (latest > 0.05 && !p2Visible) setP2Visible(true);
         else if (latest === 0 && p2Visible) setP2Visible(false);
+    });
+
+    const [pfVisible, setPfVisible] = useState(false);
+    useMotionValueEvent(pfOpacity, "change", (latest) => {
+        if (latest > 0.05 && !pfVisible) setPfVisible(true);
+        else if (latest === 0 && pfVisible) setPfVisible(false);
     });
 
     const [coreVisible, setCoreVisible] = useState(false);
@@ -393,25 +391,25 @@ export function UIOverlay({ isBooted }) {
         1: { 
             header: "SYS.STATUS: OLISTICO_ONLINE",
             title: "L'ARCHITETTURA DEL PENSIERO", 
-            text: "Non usiamo decine di tool scollegati. AI-SPACE è una singola rete neurale applicata al tuo business. Tu fornisci l'intento tramite un prompt, il sistema orchestra strategia, copy e design all'istante. Nessuna frammentazione, solo un flusso operativo puro e continuo.",
+            text: "Dimentica la frammentazione. AI-SPACE è una singola rete neurale applicata chirurgicamente al tuo business. Tu definisci l'intento strategico tramite un prompt naturale, e il motore orchestra simultaneamente sviluppo architetturale, copy persuasivo e design immersivo. Flusso puro. Esecuzione letale.",
             color: "text-blue-400",
             expandedContent: "[+] Sincronizzazione Dati | [+] Memoria Condivisa | [+] Orchestrazione IA",
             microData: [
-                { label: "Frammentazione_Tool", value: 0, suffix: "%", type: "number" },
-                { label: "Velocità_Esecuzione", value: 400, prefix: "+", suffix: "%", type: "number" }
+                { label: "Frammentazione", value: 0, suffix: "%", type: "number" },
+                { label: "Velocità_Execution", value: 400, prefix: "+", suffix: "%", type: "number" }
             ],
-            cta: "RICHIEDI ACCESSO ALL'ECOSISTEMA",
+            cta: "INIZIALIZZA IL CORE",
             action: () => setIsTerminalOpen(true)
         },
         2: { 
             header: "MODULO: AI-CREATIVE_ATTIVO",
-            title: "MOTORE GENERATIVO 3D & WEB", 
-            text: "Il codice non è più un limite. Progettiamo ambienti WebGL immersivi, landing page ad altissima conversione e contenuti visivi in tempo reale. Il nostro ecosistema azzera il debito tecnico: tu definisci la visione, l'adattività della piattaforma forgia il risultato.",
+            title: "MOTORE GENERATIVO 3D", 
+            text: "Il codice non è più un limite, è una materia plastica. Progettiamo ambienti WebGL profondamente immersivi e landing page ad altissima conversione che si generano in tempo reale. Il nostro ecosistema azzera il debito tecnico: tu dichiari la visione, i nostri algoritmi ne forgiano la geometria.",
             color: "text-cyan-400",
-            expandedContent: "[>] WebGL | [>] React/Three.js | [>] Spatial UI",
+            expandedContent: "[>] Vertex Rendering | [>] React/Three.js | [>] Spatial UI Premium",
             microData: [
-                { label: "Rendering", value: "Istantaneo" },
-                { label: "UI/UX", value: "Adattiva_Predictiva" }
+                { label: "Rendering_3D", value: "Tempo_Reale" },
+                { label: "Architettura", value: "Cloud_Native" }
             ],
             cta: "ESPLORA LE ARCHITETTURE WEB",
             action: () => { setHyperFocus(null); setFullScreenApp('builder'); }
@@ -419,29 +417,43 @@ export function UIOverlay({ isBooted }) {
         3: { 
             header: "MODULO: AI-TUTOR_SYNC",
             title: "FORMAZIONE E SCALABILITÀ", 
-            text: "L'evoluzione non si ferma mai. Mentre il tuo Tutor IA personale struttura percorsi didattici su misura per farti dominare le ultime tecnologie, i nostri agenti autonomi operano in background. Ottimizzano e scalano le tue piattaforme senza che tu debba muovere un dito. Impari, mentre il business cresce.",
+            text: "L'evoluzione è continua. Il tuo Tutor IA personale mappa le tue competenze e struttura percorsi didattici predittivi per farti dominare le tecnologie emergenti. Nel frattempo, agenti autonomi scalano le tue piattaforme in background. Evolvi la tua mente, mentre la macchina scala il tuo impero.",
             color: "text-purple-400",
-            expandedContent: "> Elaborazione Avatar: 8k Res | > Analisi Predittiva: Online",
+            expandedContent: "> Cloni Autonomi Innescati | > Apprendimento Adattivo: Online",
             imageAsset: "/assets/neural_clone.png",
             microData: [
-                { label: "Curva_Apprendimento", value: "Ottimizzata" },
-                { label: "Automazione", value: "Silente_H24" }
+                { label: "Curva_Apprendimento", value: "Verticale" },
+                { label: "Automazione", value: "Background_H24" }
             ],
-            cta: "PARLA CON IL TUTOR IA",
+            cta: "ATTIVA IL TUTOR NEURALE",
             action: () => { setHyperFocus(null); setFullScreenApp('tutor'); }
         },
         4: { 
             header: "INFRASTRUTTURA: CORE_MASTER",
             title: "IL TUO VANTAGGIO SLEALE", 
-            text: "Un singolo account premium per dominare la complessità digitale. Marketing, sviluppo creativo e formazione centralizzati in un ecosistema dotato di memoria persistente, che impara dalle tue decisioni e si evolve con te. Il mercato di domani si conquista oggi.",
+            text: "L'accesso premium che riscrive le regole del gioco. Ottieni il controllo totale su operazioni di marketing, sviluppo creativo avanzato e formazione di élite in un unico ambiente persistente. Il nucleo impara dalle tue iterazioni, si evolve con le tue decisioni e trasforma le operazioni manuali in automatismi autonomi.",
             color: "text-white",
-            expandedContent: "NESSUN LIMITE OPERATIVO. DOMINA IL MERCATO.",
+            expandedContent: "NESSUN LIMITE OPERATIVO. DOMINA IL MERCATO DEL DOMANI.",
             microData: [
-                { label: "Livello_Accesso", value: "High-Ticket" },
-                { label: "Memoria_Condivisa", value: "Attiva" }
+                { label: "Livello_Sicurezza", value: "Quantistica" },
+                { label: "Database_Sinergico", value: "Attivo" }
             ],
-            cta: "CANDIDATI PER L'ACCESSO CORE",
+            cta: "CANDIDATI PER L'ACCESSO",
             action: () => setIsTerminalOpen(true)
+        },
+        5: { 
+            header: "TARGET_LOCK: ADATTIVO",
+            title: "MOTORE 3D ADATTIVO",
+            text: "Ogni progetto possiede una sua architettura unica. Per questo motivo AI-SPACE funziona come un motore 3D adattivo: non imponiamo software rigidi, ma modelliamo ambienti spaziali e flussi IA esattamente sulle tue geometrie di business. Che tu sia Founder, Creator o Brand, orientiamo l'intera infrastruttura per farti materialeizzare i tuoi risultati col massimo della potenza.",
+            color: "text-emerald-400",
+            expandedContent: "[>] Strutture Spaziali Adattive | [>] Sincronizzazione Strategica | [>] Esecuzione Quantistica",
+            customComponent: <TargetRadar3D />,
+            microData: [
+                { label: "Plasticità_3D", value: "Modellazione_RealTime" },
+                { label: "Targeting", value: "Matrice_Dinamica" }
+            ],
+            cta: "ESPLORA L'ADATTAMENTO AL TARGET",
+            action: () => { setHyperFocus(null); setFullScreenApp('targetMatrix'); }
         }
     };
 
@@ -526,6 +538,18 @@ export function UIOverlay({ isBooted }) {
                                             </motion.div>
                                         )}
 
+                                        {/* Custom Interactive Component for unique deep-dives */}
+                                        {focusData[hyperFocus].customComponent && (
+                                            <motion.div 
+                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ delay: 0.4 }}
+                                                className="w-full shrink-0"
+                                            >
+                                                {focusData[hyperFocus].customComponent}
+                                            </motion.div>
+                                        )}
+
                                         {/* Expanded List Items */}
                                         <motion.div 
                                             initial={{ opacity: 0 }}
@@ -591,193 +615,46 @@ export function UIOverlay({ isBooted }) {
             </div>
 
             {/* STATION 1: HERO */}
-            <motion.section 
-                style={{ opacity: heroOpacity, y: heroY, pointerEvents: heroPointerEvents, display: heroDisplay }}
-                animate={{ 
-                    x: hyperFocus === 1 ? "-20vw" : "0vw",
-                    scale: hyperFocus === 1 ? 0.7 : 1,
-                    opacity: hyperFocus === 1 ? 0.3 : 1
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 top-[40%] md:top-[35%] -translate-y-1/2 flex-col items-center justify-center text-center px-4 md:px-[10vw] transform-origin-center perspective-[1000px]"
-            >
-                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center">
-                    <SpatialTitle 
-                        text={["IL POTERE", "DEL PROMPT."]} 
-                        trigger={heroVisible} 
-                        duration={1.2}
-                        className="text-[clamp(3rem,8vw,5.5rem)] xl:text-[clamp(4rem,7vw,7rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
-                    />
-                    <MaskRevealText 
-                        text="Ecosistemi Digitali Evoluti" 
-                        trigger={heroVisible} 
-                        element="h2"
-                        delay={0.2}
-                        className="text-white/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4"
-                    />
-                    <MaskRevealText 
-                        text={[
-                            "Non creiamo semplici siti web. Forgiamo <b class='text-white'>Infrastrutture Intelligenti</b> guidate dall'IA,",
-                            "architetture end-to-end progettate per scalare e dominare il mercato di domani."
-                        ]}
-                        trigger={heroVisible}
-                        delay={0.4}
-                        className="text-white/70 font-sans font-normal text-xs md:text-base max-w-2xl mx-auto mb-6"
-                    />
-                    <MagneticButton 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: heroVisible ? 1 : 0 }}
-                        transition={{ delay: 1 }}
-                        onClick={() => setHyperFocus(1)}
-                        className={`relative z-50 pointer-events-auto font-mono text-xs text-blue-400 hover:text-white hover:bg-white/10 transition-all border border-blue-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 1 ? "hidden" : ""}`}
-                    >
-                        [ {'>'} ESPANDI_DATI ]
-                    </MagneticButton>
-                </motion.div>
-            </motion.section>
+            <HeroSection 
+                opacity={heroOpacity} y={heroY} pointerEvents={heroPointerEvents} display={heroDisplay}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={heroVisible}
+                hyperFocus={hyperFocus} setHyperFocus={setHyperFocus} onPrimaryClick={() => setIsTerminalOpen(true)}
+            />
 
-            {/* STATION 2: Piattaforme (Strictly Left Aligned) */}
-            <motion.section 
-                style={{ opacity: p1Opacity, y: p1Y, pointerEvents: p1PointerEvents }}
-                animate={{ 
-                    x: hyperFocus === 2 ? "-15vw" : "0vw",
-                    scale: hyperFocus === 2 ? 0.7 : 1,
-                    opacity: hyperFocus === 2 ? 0.3 : 1
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-start pl-6 md:pl-[12vw] pr-6 transform-origin-left perspective-[1000px]"
-            >
-                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-2xl">
-                    <MaskRevealText 
-                        text="SYS.PLATFORM_V1" 
-                        trigger={p1Visible} 
-                        delay={0.1}
-                        className="text-cyan-400/80 text-xs md:text-sm font-mono uppercase tracking-[0.3em] mb-4"
-                    />
-                    <SpatialTitle 
-                        text={["COSTRUISCI", "L'IMPOSSIBILE."]} 
-                        trigger={p1Visible}
-                        duration={0.8}
-                        className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] mb-8 uppercase tracking-tighter leading-[0.9] text-blue-50 break-words drop-shadow-lg"
-                    />
-                    <MaskRevealText 
-                        text={[
-                            "Costruiamo applicazioni web e cloud-native ad altissime prestazioni.",
-                            "I nostri ecosistemi non si limitano a esistere, ma sono organismi digitali vivi."
-                        ]}
-                        trigger={p1Visible}
-                        delay={0.3}
-                        className="text-white/70 font-sans font-normal text-lg md:text-xl mb-8"
-                    />
-                    <MagneticButton 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: p1Visible ? 1 : 0 }}
-                        transition={{ delay: 0.8 }}
-                        onClick={() => setHyperFocus(2)}
-                        className={`pointer-events-auto font-mono text-xs text-cyan-400 hover:text-white hover:bg-white/10 transition-all border border-cyan-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 2 ? "hidden" : ""}`}
-                    >
-                        [ {'>'} ESPANDI_DATI ]
-                    </MagneticButton>
-                </motion.div>
-            </motion.section>
+            {/* STATION 2: OUTCOMES */}
+            <OutcomeSection 
+                opacity={p1Opacity} y={p1Y} pointerEvents={p1PointerEvents} display={p1Display}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={p1Visible}
+                hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
+            />
 
-            {/* STATION 3: Sviluppo IA (Strictly Right Aligned) */}
-            <motion.section 
-                style={{ opacity: p2Opacity, y: p2Y, pointerEvents: p2PointerEvents }}
-                animate={{ 
-                    x: hyperFocus === 3 ? "-15vw" : "0vw",
-                    scale: hyperFocus === 3 ? 0.7 : 1,
-                    opacity: hyperFocus === 3 ? 0.3 : 1
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-end pr-6 md:pr-[12vw] pl-6 transform-origin-right perspective-[1000px]"
-            >
-                <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-3xl text-right flex flex-col items-end">
-                    <MaskRevealText 
-                        text="AGENTS & INSIGHTS" 
-                        trigger={p2Visible} 
-                        delay={0.1}
-                        className="text-purple-400/80 text-xs md:text-sm font-mono uppercase tracking-[0.3em] mb-4"
-                    />
-                    <SpatialTitle 
-                        text={["IMPARA E", "ACCELERA."]} 
-                        trigger={p2Visible} 
-                        duration={0.8}
-                        className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] mb-8 uppercase tracking-tighter leading-[0.9] text-blue-50 break-words drop-shadow-lg"
-                    />
-                    <MaskRevealText 
-                        text={[
-                            "Andiamo oltre il codice tradizionale.",
-                            "Sviluppiamo agenti autonomi, automatismi predittivi",
-                            "e generatori di insight comportamentali in tempo reale."
-                        ]}
-                        trigger={p2Visible}
-                        delay={0.3}
-                        className="text-white/70 font-sans font-normal text-lg md:text-xl flex flex-col items-end mb-8"
-                    />
-                    <MagneticButton 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: p2Visible ? 1 : 0 }}
-                        transition={{ delay: 0.8 }}
-                        onClick={() => setHyperFocus(3)}
-                        className={`pointer-events-auto font-mono text-xs text-purple-400 hover:text-white hover:bg-white/10 transition-all border border-purple-400/30 px-4 py-2 rounded-sm tracking-widest ${hyperFocus === 3 ? "hidden" : ""}`}
-                    >
-                        [ {'>'} ESPANDI_DATI ]
-                    </MagneticButton>
-                </motion.div>
-            </motion.section>
+            {/* STATION 3: AUDIENCE */}
+            <AudienceSection 
+                opacity={authOpacity} y={authY} pointerEvents={authPointerEvents} display={authDisplay}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={authVisible}
+                hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
+            />
 
-            {/* STATION 4: THE CORE (Center) */}
-            <motion.section 
-                style={{ opacity: coreOpacity, y: coreY, pointerEvents: corePointerEvents }}
-                animate={{ 
-                    x: hyperFocus === 4 ? "-20vw" : "0vw",
-                    scale: hyperFocus === 4 ? 0.7 : 1,
-                    opacity: hyperFocus === 4 ? 0.3 : 1
-                }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="absolute inset-x-0 bottom-[15vh] md:bottom-[25vh] flex flex-col items-center justify-center text-center px-6 transform-origin-bottom perspective-[1000px]"
-            >
-                 <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-5xl w-full flex flex-col items-center">
-                    <SpatialTitle 
-                        text={["UN ACCOUNT", "INFINITE", "CAPACITÀ."]} 
-                        trigger={coreVisible} 
-                        duration={1.0}
-                        className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] mb-8 uppercase tracking-tighter leading-[0.9] text-blue-50 break-words drop-shadow-lg whitespace-nowrap"
-                    />
-                    <MaskRevealText 
-                        text={[
-                            "L'Unico Ecosistema Necessario. Dall'analisi concettuale,",
-                            "allo sviluppo dell'infrastruttura, fino al rilascio.",
-                            "Offriamo un servizio end-to-end chiavi in mano."
-                        ]}
-                        trigger={coreVisible}
-                        delay={0.2}
-                        className="text-white/70 font-sans font-normal text-lg md:text-xl mb-12"
-                    />
-                    
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: coreVisible ? 1 : 0, y: coreVisible ? 0 : 30 }}
-                        transition={{ delay: 0.8, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col items-center gap-6"
-                    >
-                        <button className="px-12 py-5 bg-white text-black font-sans font-bold tracking-[0.2em] uppercase text-sm rounded-full hover:bg-black hover:text-white border border-transparent hover:border-white transition-all duration-300">
-                            Entra in AI SPACE
-                        </button>
-                        
-                        <MagneticButton 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: coreVisible ? 1 : 0 }}
-                            transition={{ delay: 0.2 }}
-                            onClick={() => setHyperFocus(4)}
-                            className={`pointer-events-auto font-mono text-xs text-white/50 hover:text-white hover:bg-white/10 transition-all border border-white/30 px-4 py-2 rounded-sm tracking-widest mt-4 ${hyperFocus === 4 ? "hidden" : ""}`}
-                        >
-                            [ {'>'} ESPANDI_DATI ]
-                        </MagneticButton>
-                    </motion.div>
-                </motion.div>
-            </motion.section>
+            {/* STATION 4: MODULES */}
+            <EcosystemModulesSection 
+                opacity={p2Opacity} y={p2Y} pointerEvents={p2PointerEvents} display={p2Display}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={p2Visible}
+                hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
+            />
+
+            {/* STATION 5: PROMPT FIRST */}
+            <PromptFirstSection 
+                opacity={pfOpacity} y={pfY} pointerEvents={pfPointerEvents} display={pfDisplay}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={pfVisible}
+                hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
+            />
+
+            {/* STATION 6: VISION / CORE */}
+            <VisionSection 
+                opacity={coreOpacity} y={coreY} pointerEvents={corePointerEvents} display={coreDisplay}
+                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={coreVisible}
+                hyperFocus={hyperFocus} onPrimaryClick={() => setIsTerminalOpen(true)}
+            />
 
             {/* EVENT HORIZON: THE CLIMAX */}
             <motion.section 
@@ -822,6 +699,7 @@ export function UIOverlay({ isBooted }) {
 
             <HyperBuilder isOpen={fullScreenApp === 'builder'} onClose={() => setFullScreenApp(null)} />
             <HoloTutor isOpen={fullScreenApp === 'tutor'} onClose={() => setFullScreenApp(null)} />
+            <TargetMatrix isOpen={fullScreenApp === 'targetMatrix'} onClose={() => setFullScreenApp(null)} />
         </main>
     );
 }

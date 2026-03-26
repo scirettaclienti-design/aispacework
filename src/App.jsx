@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <HyperFocusProvider>
-      <div id="story-container" className="bg-transparent text-white relative font-sans h-[500vh]">
+      <div id="story-container" className="bg-transparent text-white relative font-sans h-[800vh]">
         <AppContent isBooted={isBooted} setIsBooted={setIsBooted} />
       </div>
     </HyperFocusProvider>
