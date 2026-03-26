@@ -53,7 +53,7 @@ export function EcosystemModulesSection({
                     text={["L'ECOSISTEMA", "MODULARE."]} 
                     trigger={isVisible}
                     duration={0.8}
-                    className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[7rem] mb-2 uppercase tracking-tighter leading-[0.9] text-blue-50 break-words drop-shadow-lg"
+                    className="font-display font-black text-3xl sm:text-4xl md:text-7xl lg:text-[7rem] mb-2 uppercase tracking-tighter leading-[0.9] text-blue-50 break-words drop-shadow-lg"
                 />
                 
                 <MaskRevealText 
@@ -62,10 +62,10 @@ export function EcosystemModulesSection({
                     ]}
                     trigger={isVisible}
                     delay={0.3}
-                    className="text-white/70 font-sans font-normal text-lg md:text-xl mb-10"
+                    className="hidden md:block text-white/70 font-sans font-normal text-lg md:text-xl mb-10"
                 />
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3 md:gap-4 mt-8 md:mt-0">
                     {modules.map((mod, idx) => {
                         const bgColors = {
                             blue: "hover:bg-blue-500/10 border-blue-400/20 hover:border-blue-400/50",
@@ -84,13 +84,13 @@ export function EcosystemModulesSection({
                                 initial={{ opacity: 0, x: -50 }}
                                 animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -50 }}
                                 transition={{ delay: 0.6 + (idx * 0.15) }}
-                                className={`w-full md:w-[600px] border border-white/5 bg-white/5 backdrop-blur-md p-5 rounded-md flex justify-between items-center group cursor-pointer transition-colors duration-300 ${bgColors[mod.color]}`}
+                                className={`w-full md:w-[600px] border border-white/5 bg-white/5 backdrop-blur-md p-4 md:p-5 rounded-md flex justify-between items-center group cursor-pointer transition-colors duration-300 ${bgColors[mod.color]}`}
                                 onClick={() => setHyperFocus(mod.id === 1 ? 4 : mod.id)} // Mapping to existing focusData panel IDs!
                             >
                                 <div>
                                     <div className={`font-mono text-[10px] tracking-[0.2em] mb-1 ${textColors[mod.color]}`}>[{mod.category}]</div>
-                                    <div className="text-white font-sans font-bold text-lg md:text-xl mb-1 tracking-wide">{mod.title}</div>
-                                    <div className="text-white/50 text-sm">{mod.desc}</div>
+                                    <div className="text-white font-sans font-bold text-base md:text-xl md:mb-1 tracking-wide">{mod.title}</div>
+                                    <div className="hidden md:block text-white/50 text-sm">{mod.desc}</div>
                                 </div>
                                 <div className="text-white/20 group-hover:text-white transition-colors">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>

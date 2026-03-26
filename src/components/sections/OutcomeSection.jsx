@@ -52,23 +52,23 @@ export function OutcomeSection({
                     text={["COSA PUOI", "COSTRUIRE."]} 
                     trigger={isVisible}
                     duration={0.8}
-                    className="font-display font-black text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] mb-12 uppercase tracking-tighter leading-[0.9] text-blue-50 drop-shadow-lg"
+                    className="font-display font-black text-3xl sm:text-4xl md:text-7xl lg:text-[6.5rem] mb-6 md:mb-12 uppercase tracking-tighter leading-[0.9] text-blue-50 drop-shadow-lg"
                 />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mt-8 cursor-default">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full max-w-4xl mt-4 md:mt-8 cursor-default">
                     {outcomes.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -30 }}
                             transition={{ delay: 0.4 + (index * 0.15), duration: 0.6 }}
-                            className="bg-purple-900/5 hover:bg-purple-900/20 border border-purple-500/20 backdrop-blur-md p-6 rounded-lg transition-colors group relative overflow-hidden"
+                            className="bg-purple-900/5 hover:bg-purple-900/20 border border-purple-500/20 backdrop-blur-md p-5 md:p-6 rounded-lg transition-colors group relative overflow-hidden"
                         >
-                            <div className="text-purple-400/30 font-display font-bold text-4xl absolute -right-2 -top-2 select-none group-hover:text-cyan-400/40 transition-colors">
+                            <div className="text-purple-400/30 font-display font-bold text-3xl md:text-4xl absolute -right-2 -top-2 select-none group-hover:text-cyan-400/40 transition-colors">
                                 {item.icon}
                             </div>
-                            <h3 className="text-white font-sans text-xl font-bold mb-2 tracking-wide relative z-10">{item.title}</h3>
-                            <p className="text-white/60 font-sans text-sm md:text-md leading-relaxed relative z-10">
+                            <h3 className="text-white font-sans text-lg md:text-xl font-bold md:mb-2 tracking-wide relative z-10">{item.title}</h3>
+                            <p className="hidden md:block text-white/60 font-sans text-sm md:text-md leading-relaxed relative z-10">
                                 {item.description}
                             </p>
                         </motion.div>
