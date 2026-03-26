@@ -76,8 +76,8 @@ export function TerminalForm({ isOpen, onClose }) {
         // Costruisci il messaggio per WhatsApp
         const messageText = `*Nuova Richiesta di Accesso dal Core AI-SPACE*%0A%0A*Nome:* ${formData.name}%0A*Numero WhatsApp:* ${formData.email}%0A*Intento:* ${formData.message}`;
         
-        // Numero fornito: +39 388 104 1806
-        const whatsappUrl = `https://wa.me/393881041806?text=${messageText}`;
+        // Numero fornito: 33476498357
+        const whatsappUrl = `https://wa.me/3933476498357?text=${messageText}`;
 
         setTimeout(() => {
             setStep(5); // Success message

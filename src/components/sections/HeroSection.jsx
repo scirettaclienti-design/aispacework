@@ -30,10 +30,10 @@ export function HeroSection({
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
             >
                 <motion.img 
-                    src="/assets/ai_logo_3d.png" 
+                    src="/assets/ai_logo_wireframe.png" 
                     alt="Core Hologram" 
-                    className="w-[90vw] md:w-[60vw] max-w-[800px] h-auto object-contain mix-blend-screen blur-[1px]"
-                    style={{ filter: "drop-shadow(0px 0px 40px rgba(34,211,238,0.8)) brightness(150%) contrast(150%)" }}
+                    className="w-[90vw] md:w-[60vw] max-w-[800px] h-auto object-contain mix-blend-screen"
+                    style={{ filter: "drop-shadow(0px 0px 30px rgba(34,211,238,0.8)) brightness(150%) hue-rotate(180deg)" }}
                     animate={{ 
                         y: [-20, 20, -20],
                         rotateZ: [-1, 1, -1]
@@ -47,12 +47,13 @@ export function HeroSection({
                     text="SBLOCCA IL VERO POTERE DELL'INTELLIGENZA ARTIFICIALE" 
                     trigger={isVisible} 
                     element="h2"
-                    delay={0.1}
+                    delay={1.5}
                     className="text-cyan-400/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4 text-center"
                 />
                 <SpatialTitle 
                     text={["LA TUA EVOLUZIONE", "INIZIA QUI."]} 
                     trigger={isVisible} 
+                    delay={1.8}
                     duration={1.2}
                     className="text-[clamp(2.5rem,5vw,4.5rem)] xl:text-[clamp(3.5rem,6vw,6rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg text-center"
                 />
@@ -63,7 +64,7 @@ export function HeroSection({
                         "AI-SPACE trasforma le tue idee in risultati concreti, al doppio della velocità."
                     ]}
                     trigger={isVisible}
-                    delay={0.3}
+                    delay={2.5}
                     className="text-white/80 font-sans font-medium text-sm md:text-lg max-w-2xl mx-auto mb-8 tracking-wide"
                 />
 
@@ -76,7 +77,7 @@ export function HeroSection({
                         visible: {
                             transition: {
                                 staggerChildren: 0.2,
-                                delayChildren: 0.8
+                                delayChildren: 3.0
                             }
                         }
                     }}
@@ -103,7 +104,7 @@ export function HeroSection({
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 20 }}
-                    transition={{ delay: 1.2, duration: 0.8 }}
+                    transition={{ delay: 3.5, duration: 0.8 }}
                     className="flex flex-col sm:flex-row gap-4 items-center"
                 >
                     <button 
