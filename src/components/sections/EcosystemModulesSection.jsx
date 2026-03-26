@@ -10,23 +10,23 @@ export function EcosystemModulesSection({
     const modules = [
         {
             id: 1,
-            title: "LA CENTRALE OPERATIVA",
+            title: "LA CENTRALE AL COMANDO",
             category: "SYS.CORE",
-            desc: "Il cuore del sistema dove gestisci progetti, memorie e strategie in un solo posto.",
+            desc: "L'interfaccia unica dove inserisci i tuoi prompt. Il sistema elabora la tua richiesta e smista il lavoro.",
             color: "blue"
         },
         {
             id: 2,
-            title: "MOTORE DI CREAZIONE SITI",
-            category: "MODULO: WEB DESIGN",
-            desc: "L'intelligenza che materializza i tuoi siti web in 3D senza dover scrivere codice.",
+            title: "PER COSTRUIRE",
+            category: "MODULO: ESECUZIONE",
+            desc: "Fai lavorare l'IA per te. Genera siti web, landing page e automazioni pronte all'uso senza scrivere codice.",
             color: "cyan"
         },
         {
             id: 3,
-            title: "IL TUO DOCENTE PRIVATO",
+            title: "PER IMPARARE",
             category: "MODULO: FORMAZIONE",
-            desc: "Un Tutor personale che ti insegna ad usare l'AI in modo incredibilmente facile e pratico.",
+            desc: "Vuoi imparare tu? Un Tutor privato ti affianca 24/7 per insegnarti a dominare l'Intelligenza Artificiale.",
             color: "purple"
         }
     ];
@@ -44,7 +44,7 @@ export function EcosystemModulesSection({
         >
             <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl">
                 <MaskRevealText 
-                    text="FUNZIONA TUTTO INSIEME" 
+                    text="DUE STRADE, UN UNICO PROMPT" 
                     trigger={isVisible} 
                     delay={0.1}
                     className="text-white/60 text-xs md:text-sm font-mono uppercase tracking-[0.3em] mb-4"
@@ -58,7 +58,7 @@ export function EcosystemModulesSection({
                 
                 <MaskRevealText 
                     text={[
-                        "Dimentica i vari programmi scollegati. Qui tutto collabora per farti crescere."
+                        "Inserisci la tua visione nel prompt: decidi tu se delegare la costruzione all'IA o imparare dal Tutor."
                     ]}
                     trigger={isVisible}
                     delay={0.3}

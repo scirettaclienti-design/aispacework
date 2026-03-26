@@ -14,7 +14,6 @@ import { OutcomeSection } from './sections/OutcomeSection';
 import { AudienceSection } from './sections/AudienceSection';
 import { EcosystemModulesSection } from './sections/EcosystemModulesSection';
 import { PromptFirstSection } from './sections/PromptFirstSection';
-import { VisionSection } from './sections/VisionSection';
 import { TargetRadar3D } from './TargetRadar3D';
 import { TargetMatrix } from './TargetMatrix';
 
@@ -649,17 +648,11 @@ export function UIOverlay({ isBooted }) {
                 hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
             />
 
-            {/* STATION 6: VISION / CORE */}
-            <VisionSection 
-                opacity={coreOpacity} y={coreY} pointerEvents={corePointerEvents} display={coreDisplay}
-                globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={coreVisible}
-                hyperFocus={hyperFocus} onPrimaryClick={() => setIsTerminalOpen(true)}
-            />
-
+            {/* STATION 6: END HUB */}
             {/* EVENT HORIZON: THE CLIMAX */}
             <motion.section 
-                style={{ opacity: ehOpacity, pointerEvents: ehPointerEvents }}
-                className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-[30px] transition-all duration-1000 overflow-hidden perspective-[1000px]"
+                style={{ opacity: coreOpacity, pointerEvents: corePointerEvents }}
+                className="absolute inset-x-0 bottom-[10vh] flex flex-col items-center justify-end pb-[10vh] pointer-events-none backdrop-blur-[30px] transition-all duration-1000 overflow-hidden perspective-[1000px]"
             >
                 {/* Core Singularity Glow */}
                 <motion.div 
@@ -686,7 +679,7 @@ export function UIOverlay({ isBooted }) {
                         <div className="absolute inset-0 bg-cyan-400/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out" />
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         
-                        <span className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">INIZIALIZZA IL TUO SPAZIO ORA</span>
+                        <span className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">IL MERCATO DI DOMANI SI CREA OGGI</span>
                     </MagneticButton>
                     
                     <div className="mt-8 text-cyan-200/60 font-mono text-xs tracking-widest uppercase animate-pulse flex items-center gap-4">
