@@ -20,7 +20,7 @@ export function CommandBar() {
     });
 
     return (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-2xl pointer-events-auto">
+        <div className="hidden md:block fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-2xl pointer-events-auto">
             <div className="glass-panel rounded-full px-6 py-4 flex items-center justify-between gap-4 bg-black/40 backdrop-blur-xl border border-blue-500/20 shadow-[0_0_40px_rgba(0,102,255,0.15)]">
                 <div className="flex items-center gap-4 flex-1 overflow-hidden">
                     <Command className="w-5 h-5 text-blue-500 animate-pulse flex-shrink-0" />

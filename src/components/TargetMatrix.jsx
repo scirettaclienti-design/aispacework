@@ -32,6 +32,14 @@ const TangibleCode = ({ code, color }) => {
 
 export function TargetMatrix({ isOpen, onClose }) {
     const [activeNode, setActiveNode] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Reset quando si chiude la modale
     useEffect(() => {
@@ -200,7 +208,7 @@ export function TargetMatrix({ isOpen, onClose }) {
                                     exit={{ opacity: 0, z: 200, rotateX: -20, filter: "blur(10px)" }}
                                     transition={{ duration: 0.8, type: "spring", bounce: 0.3 }}
                                     className="flex-1 flex flex-col pointer-events-auto w-full pt-4"
-                                    style={{ perspective: "1500px", transformStyle: "preserve-3d" }}
+                                    style={{ perspective: isMobile ? "none" : "1500px", transformStyle: isMobile ? "flat" : "preserve-3d" }}
                                 >
                                     <div className="flex items-start gap-6 max-w-2xl mb-12 border-l border-white/20 pl-6 relative transform-gpu translate-z-10">
                                         <div className="absolute top-0 -left-[1.5px] w-[2px] h-1/3 bg-white" />
@@ -214,9 +222,9 @@ export function TargetMatrix({ isOpen, onClose }) {
                                             <motion.div 
                                                 key={node.id}
                                                 // 3D entrance and hover physics
-                                                initial={{ opacity: 0, z: -100, rotateX: -15, rotateY: i % 2 === 0 ? 15 : -15 }}
+                                                initial={{ opacity: 0, z: isMobile ? 0 : -100, rotateX: isMobile ? 0 : -15, rotateY: isMobile ? 0 : (i % 2 === 0 ? 15 : -15) }}
                                                 animate={{ opacity: 1, z: 0, rotateX: 0, rotateY: 0 }}
-                                                whileHover={{ scale: 1.05, z: 50, rotateX: 5, rotateY: i % 2 === 0 ? -5 : 5 }}
+                                                whileHover={{ scale: 1.02, z: isMobile ? 0 : 50, rotateX: isMobile ? 0 : 5, rotateY: isMobile ? 0 : (i % 2 === 0 ? -5 : 5) }}
                                                 transition={{ delay: 0.1 + (i * 0.1), duration: 0.7, type: 'spring', bounce: 0.4 }}
                                                 onClick={() => setActiveNode(node)}
                                                 className={`group relative overflow-hidden bg-[#020611]/80 border ${node.colors.border} ${node.colors.hoverBorder} backdrop-blur-2xl p-8 rounded-sm cursor-pointer shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 transform-gpu`}
@@ -277,12 +285,12 @@ export function TargetMatrix({ isOpen, onClose }) {
                                     exit={{ opacity: 0, z: 500, scale: 1.2, filter: "blur(20px)" }}
                                     transition={{ duration: 0.8, type: 'spring', bounce: 0.2 }}
                                     className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-10 pointer-events-auto h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-10"
-                                    style={{ perspective: "2500px", transformStyle: "preserve-3d" }}
+                                    style={{ perspective: isMobile ? "none" : "2500px", transformStyle: isMobile ? "flat" : "preserve-3d" }}
                                 >
                                     {/* LEFT COLUMN: Holographic Process Map */}
                                     <motion.div 
-                                        initial={{ rotateY: 30, x: -100, opacity: 0 }}
-                                        animate={{ rotateY: 10, x: 0, opacity: 1 }}
+                                        initial={{ rotateY: isMobile ? 0 : 30, x: isMobile ? 0 : -100, opacity: 0 }}
+                                        animate={{ rotateY: isMobile ? 0 : 10, x: 0, opacity: 1 }}
                                         transition={{ duration: 1, delay: 0.1, type: "spring" }}
                                         className="flex-1 flex flex-col relative z-10 w-full transform-gpu origin-left"
                                     >
@@ -332,8 +340,8 @@ export function TargetMatrix({ isOpen, onClose }) {
 
                                     {/* RIGHT COLUMN: Terminal Glass & Output Block */}
                                     <motion.div 
-                                        initial={{ rotateY: -30, x: 100, opacity: 0 }}
-                                        animate={{ rotateY: -10, x: 0, opacity: 1 }}
+                                        initial={{ rotateY: isMobile ? 0 : -30, x: isMobile ? 0 : 100, opacity: 0 }}
+                                        animate={{ rotateY: isMobile ? 0 : -10, x: 0, opacity: 1 }}
                                         transition={{ duration: 1, delay: 0.2, type: "spring" }}
                                         className="flex-1 flex flex-col gap-6 relative z-10 w-full min-h-[500px] transform-gpu origin-right"
                                     >
