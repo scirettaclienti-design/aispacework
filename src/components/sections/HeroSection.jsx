@@ -23,22 +23,31 @@ export function HeroSection({
                 className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none"
                 initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
                 animate={{ 
-                    opacity: isVisible ? 0.12 : 0, 
-                    scale: isVisible ? 1.4 : 0.5, 
+                    opacity: isVisible ? 0.25 : 0, 
+                    scale: isVisible ? 1.2 : 0.5, 
                     rotateY: isVisible ? 0 : 90 
                 }}
                 transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
             >
-                <motion.img 
-                    src="/assets/ai_logo_wireframe.png" 
-                    alt="Core Hologram" 
-                    className="w-[90vw] md:w-[60vw] max-w-[800px] h-auto object-contain mix-blend-screen"
-                    style={{ filter: "drop-shadow(0px 0px 30px rgba(34,211,238,0.8)) brightness(150%) hue-rotate(180deg)" }}
-                    animate={{ 
-                        y: [-20, 20, -20],
-                        rotateZ: [-1, 1, -1]
+                <motion.div 
+                    className="w-[90vw] md:w-[60vw] max-w-[800px] aspect-square mix-blend-screen"
+                    style={{ 
+                        background: "linear-gradient(135deg, #22d3ee 0%, #34d399 50%, #c084fc 100%)",
+                        WebkitMaskImage: "url(/assets/ai_logo_wireframe.png)",
+                        WebkitMaskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskImage: "url(/assets/ai_logo_wireframe.png)",
+                        maskSize: "contain",
+                        maskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        filter: "drop-shadow(0px 0px 15px rgba(34,211,238,0.5))"
                     }}
-                    transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+                    animate={{ 
+                        y: [-25, 25, -25],
+                        rotateZ: [-2, 2, -2]
+                    }}
+                    transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
                 />
             </motion.div>
 
