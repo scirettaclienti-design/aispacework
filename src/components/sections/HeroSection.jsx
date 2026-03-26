@@ -16,23 +16,33 @@ export function HeroSection({
                 opacity: hyperFocus === 1 ? 0.3 : 1
             }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-[10vw] pb-[25vh] md:pb-[15vh] transform-origin-center perspective-[1000px]"
+            className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-[10vw] pb-[25vh] md:pb-[15vh] transform-origin-center perspective-[1000px] overflow-hidden"
         >
-            <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.8, y: isVisible ? 0 : 20 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    <motion.img 
-                        src="/assets/ai_logo_3d.png" 
-                        alt="AI-SPACE 3D Logo" 
-                        className="w-24 md:w-32 h-auto mb-6 md:mb-8 object-contain drop-shadow-[0_0_25px_rgba(34,211,238,0.5)]"
-                        animate={{ y: [-5, 5, -5] }}
-                        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    />
-                </motion.div>
+            {/* HOLOGRAPHIC BACKGROUND LOGO */}
+            <motion.div
+                className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none"
+                initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
+                animate={{ 
+                    opacity: isVisible ? 0.12 : 0, 
+                    scale: isVisible ? 1.4 : 0.5, 
+                    rotateY: isVisible ? 0 : 90 
+                }}
+                transition={{ duration: 2.5, ease: [0.16, 1, 0.3, 1] }}
+            >
+                <motion.img 
+                    src="/assets/ai_logo_3d.png" 
+                    alt="Core Hologram" 
+                    className="w-[90vw] md:w-[60vw] max-w-[800px] h-auto object-contain mix-blend-screen blur-[1px]"
+                    style={{ filter: "drop-shadow(0px 0px 40px rgba(34,211,238,0.8)) brightness(150%) contrast(150%)" }}
+                    animate={{ 
+                        y: [-20, 20, -20],
+                        rotateZ: [-1, 1, -1]
+                    }}
+                    transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+                />
+            </motion.div>
 
+            <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center relative z-10">
                 <MaskRevealText 
                     text="SBLOCCA IL VERO POTERE DELL'INTELLIGENZA ARTIFICIALE" 
                     trigger={isVisible} 

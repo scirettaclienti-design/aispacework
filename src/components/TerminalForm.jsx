@@ -60,7 +60,7 @@ export function TerminalForm({ isOpen, onClose }) {
             if (step === 1 && formData.name) {
                 setInputVisible(false);
                 setStep(2);
-            } else if (step === 2 && formData.email && formData.email.includes('@')) {
+            } else if (step === 2 && formData.email && formData.email.trim().length > 3) {
                 setInputVisible(false);
                 setStep(3);
             } else if (step === 3 && formData.message) {
@@ -81,8 +81,8 @@ export function TerminalForm({ isOpen, onClose }) {
 
         setTimeout(() => {
             setStep(5); // Success message
-            window.open(whatsappUrl, '_blank');
-            setTimeout(onClose, 3000); // Chiude il form dopo 3 secondi
+            window.location.href = whatsappUrl; // Use location.href to avoid popup blockers in setTimeout
+            setTimeout(onClose, 2000); // Chiude il form
         }, 1500);
     };
 
