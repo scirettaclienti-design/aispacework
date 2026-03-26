@@ -452,7 +452,7 @@ export function UIOverlay({ isBooted }) {
                 { label: "Plasticità_3D", value: "Modellazione_RealTime" },
                 { label: "Targeting", value: "Matrice_Dinamica" }
             ],
-            cta: "ESPLORA L'ADATTAMENTO AL TARGET",
+            cta: "GUARDA LA MATRIX IN AZIONE",
             action: () => { setHyperFocus(null); setFullScreenApp('targetMatrix'); }
         }
     };
@@ -484,7 +484,7 @@ export function UIOverlay({ isBooted }) {
                         </div>
 
                         {/* Content Container (above CRT) */}
-                        <div className="relative z-10 flex flex-col flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="relative z-10 flex flex-col flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar max-h-[calc(85vh-5rem)]">
                             <MagneticButton 
                                 onClick={() => setHyperFocus(null)}
                                 className="absolute top-0 right-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors z-30"
