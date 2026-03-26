@@ -447,29 +447,7 @@ export function UIOverlay({ isBooted }) {
             text: "Ogni progetto possiede una sua architettura unica. Per questo motivo AI-SPACE funziona come un motore 3D adattivo: non imponiamo software rigidi, ma modelliamo ambienti spaziali e flussi IA esattamente sulle tue geometrie di business. Che tu sia Founder, Creator o Brand, orientiamo l'intera infrastruttura per farti materialeizzare i tuoi risultati col massimo della potenza.",
             color: "text-emerald-400",
             expandedContent: "[>] Strutture Spaziali Adattive | [>] Sincronizzazione Strategica | [>] Esecuzione Quantistica",
-            customComponent: (
-                <div className="w-full border border-emerald-400/20 bg-black/40 md:bg-emerald-400/5 rounded-xl p-5 mb-6 relative overflow-hidden shadow-inner">
-                    <div className="absolute inset-y-0 left-0 w-1 bg-emerald-400" />
-                    <div className="font-mono text-[10px] md:text-xs uppercase text-emerald-400 tracking-widest mb-4 flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                        PROTOCOLLO DI ADATTAMENTO
-                    </div>
-                    <div className="flex flex-col gap-3 font-sans text-xs md:text-sm text-white/80 font-light leading-relaxed pl-2">
-                        <div className="flex gap-2.5 items-start">
-                            <span className="text-emerald-400 font-bold shrink-0 mt-0.5">1.</span>
-                            <p><strong className="text-white">Iniezione Obiettivi:</strong> Inserisci i tuoi traguardi commerciali nel motore neurale.</p>
-                        </div>
-                        <div className="flex gap-2.5 items-start">
-                            <span className="text-emerald-400 font-bold shrink-0 mt-0.5">2.</span>
-                            <p><strong className="text-white">Assestamento Rigoroso:</strong> Lo stack tecnologico allinea dinamicamente gli agenti di Sviluppo, Design e Copy alla tua nicchia specifica.</p>
-                        </div>
-                        <div className="flex gap-2.5 items-start">
-                            <span className="text-emerald-400 font-bold shrink-0 mt-0.5">3.</span>
-                            <p><strong className="text-white">Esecuzione:</strong> Nasce un ecosistema Web3D che trasforma aghi nel pagliaio in prospect di fascia Premium tramite architettura visiva ingegnerizzata.</p>
-                        </div>
-                    </div>
-                </div>
-            ),
+            customComponent: <TargetRadar3D />,
             microData: [
                 { label: "Plasticità_3D", value: "Modellazione_RealTime" },
                 { label: "Targeting", value: "Matrice_Dinamica" }
@@ -506,7 +484,7 @@ export function UIOverlay({ isBooted }) {
                         </div>
 
                         {/* Content Container (above CRT) */}
-                        <div className="relative z-10 flex flex-col h-full overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="relative z-10 flex flex-col flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar">
                             <MagneticButton 
                                 onClick={() => setHyperFocus(null)}
                                 className="absolute top-0 right-0 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors z-30"
