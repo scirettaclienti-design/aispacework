@@ -10,23 +10,23 @@ export function EcosystemModulesSection({
     const modules = [
         {
             id: 1,
-            title: "L'ARCHITETTURA",
+            title: "LA CENTRALE OPERATIVA",
             category: "SYS.CORE",
-            desc: "Motore Centrale che sincronizza memoria condivisa, strategia e operatività.",
+            desc: "Il cuore del sistema dove gestisci progetti, memorie e strategie in un solo posto.",
             color: "blue"
         },
         {
             id: 2,
-            title: "MOTORE WEB 3D",
-            category: "MODULO: CREATIVE",
-            desc: "Dalla tua visione al codice finale: landing immersive prodotte in tempo reale.",
+            title: "MOTORE DI CREAZIONE SITI",
+            category: "MODULO: WEB DESIGN",
+            desc: "L'intelligenza che materializza i tuoi siti web in 3D senza dover scrivere codice.",
             color: "cyan"
         },
         {
             id: 3,
-            title: "TUTOR AUTONOMO",
-            category: "MODULO: NEURAL",
-            desc: "Impara mentre lavori, con percorsi didattici adattivi e predittivi.",
+            title: "IL TUO DOCENTE PRIVATO",
+            category: "MODULO: FORMAZIONE",
+            desc: "Un Tutor personale che ti insegna ad usare l'AI in modo incredibilmente facile e pratico.",
             color: "purple"
         }
     ];
@@ -44,7 +44,7 @@ export function EcosystemModulesSection({
         >
             <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl">
                 <MaskRevealText 
-                    text="WORKFLOW ORDINATO" 
+                    text="FUNZIONA TUTTO INSIEME" 
                     trigger={isVisible} 
                     delay={0.1}
                     className="text-white/60 text-xs md:text-sm font-mono uppercase tracking-[0.3em] mb-4"
@@ -58,7 +58,7 @@ export function EcosystemModulesSection({
                 
                 <MaskRevealText 
                     text={[
-                        "Non singole funzioni, ma componenti sinergici."
+                        "Dimentica i vari programmi scollegati. Qui tutto collabora per farti crescere."
                     ]}
                     trigger={isVisible}
                     delay={0.3}

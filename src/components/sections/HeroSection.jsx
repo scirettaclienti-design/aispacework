@@ -20,23 +20,23 @@ export function HeroSection({
         >
             <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center">
                 <MaskRevealText 
-                    text="COSTRUISCI CON L'INTELLIGENZA ARTIFICIALE" 
+                    text="IL TUO VANTAGGIO COMPETITIVO ASSOLUTO" 
                     trigger={isVisible} 
                     element="h2"
                     delay={0.1}
                     className="text-cyan-400/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4"
                 />
                 <SpatialTitle 
-                    text={["IL TUO", "ECOSISTEMA", "PROMPT-FIRST."]} 
+                    text={["L'ECOSISTEMA", "INTELLIGENTE", "PER IL TUO BUSINESS."]} 
                     trigger={isVisible} 
                     duration={1.2}
-                    className="text-[clamp(2.5rem,6vw,5rem)] xl:text-[clamp(3.5rem,6.5vw,6.5rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
+                    className="text-[clamp(2.5rem,5vw,4.5rem)] xl:text-[clamp(3rem,5.5vw,5.5rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
                 />
                 
                 <MaskRevealText 
                     text={[
-                        "Dimentica i tool frammentati.",
-                        "AI-SPACE è l'infrastruttura dove intenzione e costruzione coincidono."
+                        "Dimentica la complessità tecnica e mille software diversi.",
+                        "AI-SPACE trasforma le tue idee in risultati concreti, al doppio della velocità."
                     ]}
                     trigger={isVisible}
                     delay={0.3}
@@ -59,9 +59,9 @@ export function HeroSection({
                     className="flex flex-col md:flex-row gap-4 mb-10 w-full max-w-3xl justify-center"
                 >
                     {[
-                        "Genera Web App e Piattaforme",
-                        "Ottimizza i Processi Creativi",
-                        "Scala con Agenti Autonomi"
+                        "Crea Siti in 3D Spettacolari",
+                        "Automatizza le Vendite",
+                        "Delega il Lavoro Operativo"
                     ].map((outcome, idx) => (
                         <motion.div
                             key={idx}

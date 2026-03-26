@@ -27,7 +27,7 @@ export function AudienceSection({
         >
             <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-3xl flex flex-col items-center">
                 <MaskRevealText 
-                    text="IL TARGET OPERATIONALE" 
+                    text="IL PARTNER PER IL TUO BUSINESS" 
                     trigger={isVisible} 
                     delay={0.1}
                     className="text-cyan-400/80 text-xs md:text-sm font-mono uppercase tracking-[0.3em] mb-4"
@@ -42,7 +42,7 @@ export function AudienceSection({
                 
                 <MaskRevealText 
                     text={[
-                        "Costruito per chi esige risultati estremi, senza possedere un team tecnico interno."
+                        "Costruito per farti ottenere il massimo dei risultati, senza bisogno di assumere programmatori."
                     ]}
                     trigger={isVisible}
                     delay={0.3}

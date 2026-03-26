@@ -8,23 +8,23 @@ export function OutcomeSection({
 }) {
     const outcomes = [
         { 
-            title: "Presenza Digitale", 
-            description: "Landing page premium e Web App in 3D che dominano il mercato.", 
+            title: "Siti Web Mozzafiato", 
+            description: "Landing page e siti immersivi in 3D progettati specificamente per far innamorare i tuoi clienti.", 
             icon: "01" 
         },
         { 
-            title: "Accelerazione Execution", 
-            description: "Trasforma idee in prodotti senza dipendere da ampi team tecnici.", 
+            title: "Lancio Immediato", 
+            description: "Trasforma le tue idee in prodotti completi in pochissimo tempo, senza dipendere da programmatori.", 
             icon: "02" 
         },
         { 
-            title: "Automazioni Autonome", 
-            description: "Workflow operativi h24 integrati con la tua infrastruttura.", 
+            title: "Lavoro Automatico", 
+            description: "Assistenti intelligenti che lavorano per te giorno e notte, rispondendo ai clienti e gestendo i dati.", 
             icon: "03" 
         },
         { 
-            title: "Training Avanzato", 
-            description: "Percorsi verticali generati dall'AI basati sui tuoi veri colli di bottiglia.", 
+            title: "Formazione Veloce", 
+            description: "Impara a padroneggiare le nuove tecnologie guidato da un Tutor personale sempre a tua disposizione.", 
             icon: "04" 
         }
     ];
@@ -49,7 +49,7 @@ export function OutcomeSection({
                 />
                 
                 <SpatialTitle 
-                    text={["COSA PUOI", "COSTRUIRE."]} 
+                    text={["COSA PUOI", "REALIZZARE."]} 
                     trigger={isVisible}
                     duration={0.8}
                     className="font-display font-black text-3xl sm:text-4xl md:text-7xl lg:text-[6.5rem] mb-6 md:mb-12 uppercase tracking-tighter leading-[0.9] text-blue-50 drop-shadow-lg"

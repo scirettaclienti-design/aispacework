@@ -389,56 +389,56 @@ export function UIOverlay({ isBooted }) {
     // The data for the Hyper-Focus panel
     const focusData = {
         1: { 
-            header: "SYS.STATUS: OLISTICO_ONLINE",
-            title: "L'ARCHITETTURA DEL PENSIERO", 
-            text: "Dimentica la frammentazione. AI-SPACE è una singola rete neurale applicata chirurgicamente al tuo business. Tu definisci l'intento strategico tramite un prompt naturale, e il motore orchestra simultaneamente sviluppo architetturale, copy persuasivo e design immersivo. Flusso puro. Esecuzione letale.",
+            header: "SYS: CORE_MASTER",
+            title: "LA CENTRALE OPERATIVA", 
+            text: "Il vero potere non è avere tanti strumenti, ma farli dialogare perfettamente. AI-SPACE è la tua centrale operativa: tu inserisci l'obiettivo e l'intelligenza artificiale progetta, scrive e programma tutto automaticamente al posto tuo. È come avere un team direttivo sempre a tua disposizione.",
             color: "text-blue-400",
-            expandedContent: "[+] Sincronizzazione Dati | [+] Memoria Condivisa | [+] Orchestrazione IA",
+            expandedContent: "[+] Sincronizzazione Totale | [+] Unico Centro di Controllo | [+] Azione Immediata",
             microData: [
-                { label: "Frammentazione", value: 0, suffix: "%", type: "number" },
-                { label: "Velocità_Execution", value: 400, prefix: "+", suffix: "%", type: "number" }
+                { label: "Lavoro_Manuale", value: 0, suffix: "%", type: "number" },
+                { label: "Velocità_Lancio", value: 400, prefix: "+", suffix: "%", type: "number" }
             ],
-            cta: "INIZIALIZZA IL CORE",
+            cta: "ENTRA NEL SISTEMA",
             action: () => setIsTerminalOpen(true)
         },
         2: { 
-            header: "MODULO: AI-CREATIVE_ATTIVO",
-            title: "MOTORE GENERATIVO 3D", 
-            text: "Il codice non è più un limite, è una materia plastica. Progettiamo ambienti WebGL profondamente immersivi e landing page ad altissima conversione che si generano in tempo reale. Il nostro ecosistema azzera il debito tecnico: tu dichiari la visione, i nostri algoritmi ne forgiano la geometria.",
+            header: "MODULO: WEB_DESIGN",
+            title: "CREAZIONE SITI IMMERSIVI", 
+            text: "La vecchia programmazione è morta. Generiamo per te siti web e landing page in 3D incredibilmente spettacolari, progettati per vendere e lasciare a bocca aperta i tuoi clienti. Nessuna riga di codice da scrivere: tu ci dai la visione, noi la materializziamo sul web.",
             color: "text-cyan-400",
-            expandedContent: "[>] Vertex Rendering | [>] React/Three.js | [>] Spatial UI Premium",
+            expandedContent: "[>] Rendering 3D Realistico | [>] Struttura per Vendere | [>] Nessun Codice",
             microData: [
-                { label: "Rendering_3D", value: "Tempo_Reale" },
-                { label: "Architettura", value: "Cloud_Native" }
+                { label: "Impatto_Visivo", value: "Massimo_Livello" },
+                { label: "Difficoltà_Tecnica", value: "Zero" }
             ],
-            cta: "ESPLORA LE ARCHITETTURE WEB",
+            cta: "GUARDA I TEMPLATE IN AZIONE",
             action: () => { setHyperFocus(null); setFullScreenApp('builder'); }
         },
         3: { 
-            header: "MODULO: AI-TUTOR_SYNC",
-            title: "FORMAZIONE E SCALABILITÀ", 
-            text: "L'evoluzione è continua. Il tuo Tutor IA personale mappa le tue competenze e struttura percorsi didattici predittivi per farti dominare le tecnologie emergenti. Nel frattempo, agenti autonomi scalano le tue piattaforme in background. Evolvi la tua mente, mentre la macchina scala il tuo impero.",
+            header: "MODULO: FORMAZIONE",
+            title: "IL TUO DOCENTE PRIVATO", 
+            text: "L'Intelligenza Artificiale cambia ogni giorno. Il tuo Tutor IA personale mappa il tuo livello e ti insegna esattamente quello che ti serve per dominare le nuove tecnologie, senza farti perdere tempo in concetti inutili. Impara velocemente e resta sempre aggiornato, 24 ore su 24.",
             color: "text-purple-400",
-            expandedContent: "> Cloni Autonomi Innescati | > Apprendimento Adattivo: Online",
+            expandedContent: "> Percorsi Personalizzati | > Apprendimento Rapido | > Disponibile H24",
             imageAsset: "/assets/neural_clone.png",
             microData: [
-                { label: "Curva_Apprendimento", value: "Verticale" },
-                { label: "Automazione", value: "Background_H24" }
+                { label: "Crescita_Personale", value: "Accelerata" },
+                { label: "Supporto_Condiviso", value: "Sempre_Attivo" }
             ],
-            cta: "ATTIVA IL TUTOR NEURALE",
+            cta: "SCOPRI COME FUNZIONA IL TUTOR",
             action: () => { setHyperFocus(null); setFullScreenApp('tutor'); }
         },
         4: { 
-            header: "INFRASTRUTTURA: CORE_MASTER",
+            header: "ACCESSO: PIATTAFORMA",
             title: "IL TUO VANTAGGIO SLEALE", 
-            text: "L'accesso premium che riscrive le regole del gioco. Ottieni il controllo totale su operazioni di marketing, sviluppo creativo avanzato e formazione di élite in un unico ambiente persistente. Il nucleo impara dalle tue iterazioni, si evolve con le tue decisioni e trasforma le operazioni manuali in automatismi autonomi.",
+            text: "Un accesso esclusivo che ti mette in mano le chiavi del mercato. Gestisci marketing, sviluppo siti e la tua formazione da una singola interfaccia intelligente. Il sistema impara come lavori, anticipa i tuoi bisogni e trasforma le operazioni noiose in processi completamente automatizzati.",
             color: "text-white",
-            expandedContent: "NESSUN LIMITE OPERATIVO. DOMINA IL MERCATO DEL DOMANI.",
+            expandedContent: "[✓] Aumenta le Vendite | [✓] Taglia i Costi | [✓] Lavora Meno",
             microData: [
-                { label: "Livello_Sicurezza", value: "Quantistica" },
-                { label: "Database_Sinergico", value: "Attivo" }
+                { label: "Gestione_Dati", value: "Sicura" },
+                { label: "Prestazioni", value: "Enterprise" }
             ],
-            cta: "CANDIDATI PER L'ACCESSO",
+            cta: "RICHIEDI L'ACCESSO ORA",
             action: () => setIsTerminalOpen(true)
         },
         5: { 
