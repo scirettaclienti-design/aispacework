@@ -19,18 +19,32 @@ export function HeroSection({
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-[10vw] pb-[25vh] md:pb-[15vh] transform-origin-center perspective-[1000px]"
         >
             <motion.div style={{ rotateX: globalRotateX, rotateY: globalRotateY, transformStyle: "preserve-3d" }} className="max-w-4xl mx-auto flex flex-col items-center">
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                    animate={{ opacity: isVisible ? 1 : 0, scale: isVisible ? 1 : 0.8, y: isVisible ? 0 : 20 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                >
+                    <motion.img 
+                        src="/assets/ai_logo_3d.png" 
+                        alt="AI-SPACE 3D Logo" 
+                        className="w-24 md:w-32 h-auto mb-6 md:mb-8 object-contain drop-shadow-[0_0_25px_rgba(34,211,238,0.5)]"
+                        animate={{ y: [-5, 5, -5] }}
+                        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    />
+                </motion.div>
+
                 <MaskRevealText 
-                    text="IL TUO VANTAGGIO COMPETITIVO ASSOLUTO" 
+                    text="SBLOCCA IL VERO POTERE DELL'INTELLIGENZA ARTIFICIALE" 
                     trigger={isVisible} 
                     element="h2"
                     delay={0.1}
-                    className="text-cyan-400/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4"
+                    className="text-cyan-400/80 font-sans tracking-[0.2em] md:tracking-[0.4em] uppercase text-[10px] md:text-sm font-medium mb-4 text-center"
                 />
                 <SpatialTitle 
-                    text={["L'ECOSISTEMA", "INTELLIGENTE", "PER IL TUO BUSINESS."]} 
+                    text={["LA TUA EVOLUZIONE", "INIZIA QUI."]} 
                     trigger={isVisible} 
                     duration={1.2}
-                    className="text-[clamp(2.5rem,5vw,4.5rem)] xl:text-[clamp(3rem,5.5vw,5.5rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg"
+                    className="text-[clamp(2.5rem,5vw,4.5rem)] xl:text-[clamp(3.5rem,6vw,6rem)] leading-[0.9] font-display font-black mb-2 md:mb-4 tracking-tighter uppercase text-blue-50 drop-shadow-lg text-center"
                 />
                 
                 <MaskRevealText 

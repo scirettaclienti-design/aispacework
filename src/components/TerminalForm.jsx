@@ -73,38 +73,17 @@ export function TerminalForm({ isOpen, onClose }) {
     const submitForm = () => {
         setStep(4); // Sending...
 
-        const serviceId = 'SERVICE_ID_MOCK';
-        const templateId = 'TEMPLATE_ID_MOCK';
-        const publicKey = 'PUBLIC_KEY_MOCK';
+        // Costruisci il messaggio per WhatsApp
+        const messageText = `*Nuova Richiesta di Accesso dal Core AI-SPACE*%0A%0A*Nome:* ${formData.name}%0A*Numero WhatsApp:* ${formData.email}%0A*Intento:* ${formData.message}`;
+        
+        // Numero fornito: +39 388 104 1806
+        const whatsappUrl = `https://wa.me/393881041806?text=${messageText}`;
 
-        // NOTE: If using placeholders, simulate network request to avoid throwing JS errors for the user demo
-        if (serviceId === 'SERVICE_ID_MOCK') {
-            setTimeout(() => {
-                setStep(5);
-                setTimeout(onClose, 3000); // Auto close after 3 seconds
-            }, 2000);
-            return;
-        }
-
-        emailjs.send(
-            serviceId,
-            templateId,
-            {
-                from_name: formData.name,
-                reply_to: formData.email,
-                message: formData.message,
-                to_email: 'sciretta.clienti@gmail.com'
-            },
-            publicKey
-        ).then(() => {
-            setStep(5);
-            setTimeout(onClose, 3000);
-        }).catch((err) => {
-            console.error('EmailJS Error:', err);
-            // Fallback for demo continuity
-            setStep(5);
-            setTimeout(onClose, 3000);
-        });
+        setTimeout(() => {
+            setStep(5); // Success message
+            window.open(whatsappUrl, '_blank');
+            setTimeout(onClose, 3000); // Chiude il form dopo 3 secondi
+        }, 1500);
     };
 
     return (
@@ -128,7 +107,7 @@ export function TerminalForm({ isOpen, onClose }) {
                     )}
                     {step > 2 && (
                         <div className="opacity-50">
-                            <div className="mb-2">{`> INSERISCI EMAIL DI CONTATTO:`}</div>
+                            <div className="mb-2">{`> INSERISCI IL TUO NUMERO DI WHATSAPP:`}</div>
                             <div className="text-white mb-6">[{formData.email}]</div>
                         </div>
                     )}
@@ -162,13 +141,13 @@ export function TerminalForm({ isOpen, onClose }) {
 
                     {step === 2 && (
                         <div>
-                            <TypewriterText text="> INSERISCI EMAIL DI CONTATTO:" onComplete={() => setInputVisible(true)} />
+                            <TypewriterText text="> INSERISCI IL TUO NUMERO DI WHATSAPP:" onComplete={() => setInputVisible(true)} />
                             {inputVisible && (
                                 <div className="mt-4 flex">
                                     <span className="mr-2 text-white">_</span>
                                     <input 
                                         ref={inputRef}
-                                        type="email" 
+                                        type="tel" 
                                         value={formData.email}
                                         onChange={(e) => setFormData({...formData, email: e.target.value})}
                                         onKeyDown={handleKeyDown}
@@ -208,7 +187,7 @@ export function TerminalForm({ isOpen, onClose }) {
 
                     {step === 5 && (
                         <div className="text-white font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">
-                            <TypewriterText text="> TRASMISSIONE COMPLETATA. IL CORE TI CONTATTERÀ A BREVE." />
+                            <TypewriterText text="> CONNESSIONE WHATSAPP STABILITA. ATTENDERE REINDIRIZZAMENTO..." />
                         </div>
                     )}
                 </div>
