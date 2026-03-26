@@ -442,11 +442,11 @@ export function UIOverlay({ isBooted }) {
             action: () => setIsTerminalOpen(true)
         },
         5: { 
-            header: "TARGET_LOCK: ADATTIVO",
-            title: "MOTORE 3D ADATTIVO",
-            text: "Ogni progetto possiede una sua architettura unica. Per questo motivo AI-SPACE funziona come un motore 3D adattivo: non imponiamo software rigidi, ma modelliamo ambienti spaziali e flussi IA esattamente sulle tue geometrie di business. Che tu sia Founder, Creator o Brand, orientiamo l'intera infrastruttura per farti materialeizzare i tuoi risultati col massimo della potenza.",
+            header: "SYS: RADAR_PROFILAZIONE",
+            title: "ADATTAMENTO AL TARGET",
+            text: "Il framework AI-SPACE si plasma sulle tue esatte geometrie di business. Identifica i tuoi obiettivi e osserva come l'intera architettura – che tu sia un Founder, un Creator o un Brand – si riallinei istantaneamente per garantirti il massimo vantaggio competitivo nel tuo settore.",
             color: "text-emerald-400",
-            expandedContent: "[>] Strutture Spaziali Adattive | [>] Sincronizzazione Strategica | [>] Esecuzione Quantistica",
+            expandedContent: "[>] Profilazione Spaziale Attiva | [>] Sincronizzazione Strategica | [>] Dominio del Mercato",
             customComponent: <TargetRadar3D />,
             microData: [
                 { label: "Plasticità_3D", value: "Modellazione_RealTime" },
@@ -628,15 +628,15 @@ export function UIOverlay({ isBooted }) {
                 hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
             />
 
-            {/* STATION 3: AUDIENCE */}
-            <AudienceSection 
+            {/* STATION 3: MODULES (Tutor/Ecosystem) */}
+            <EcosystemModulesSection 
                 opacity={authOpacity} y={authY} pointerEvents={authPointerEvents} display={authDisplay}
                 globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={authVisible}
                 hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
             />
 
-            {/* STATION 4: MODULES */}
-            <EcosystemModulesSection 
+            {/* STATION 4: AUDIENCE (Targeting) */}
+            <AudienceSection 
                 opacity={p2Opacity} y={p2Y} pointerEvents={p2PointerEvents} display={p2Display}
                 globalRotateX={globalRotateX} globalRotateY={globalRotateY} isVisible={p2Visible}
                 hyperFocus={hyperFocus} setHyperFocus={setHyperFocus}
